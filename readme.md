@@ -53,7 +53,7 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 则必须更改函数中 main.py 中的该值 `get_latest_verCode`
 
 # 填写 游戏账号密钥
-将此下列类型添加到 `右上角 > settings > secrets > actions`
+将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
 | 密钥 | 样本 |
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
