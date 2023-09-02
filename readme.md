@@ -47,6 +47,8 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 | NA     | 15 10 * * * | 30 10 * * * |
 | JP     | 15 19 * * * | 30 19 * * * |
 
+🫠我已经修改为 天朝时间 中午 12：00 登录第一次 12：30登录第二次！
+
 没有必要再次更改其它的游戏版本 verCode 仓库，但如果你想这么干的话
 则必须更改函数中 main.py 中的该值 `get_latest_verCode`
 
