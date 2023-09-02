@@ -71,7 +71,7 @@ def topLogin(data: list) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://view.fate-go.jp/webview/common/images/404error.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara01.png"
                 }
             }
         ],
@@ -120,7 +120,7 @@ def drawFP(servants, missions) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://i.imgur.com/LJMPpP8.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara02_rv.png"
                 }
             }
         ],
