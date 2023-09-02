@@ -71,7 +71,7 @@ def topLogin(data: list) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://grandorder.wiki/images/thumb/3/3d/Icon_Item_Saint_Quartz.png/200px-Icon_Item_Saint_Quartz.png"
+                    "url": "https://view.fate-go.jp/webview/common/images/404error.png"
                 }
             }
         ],
