@@ -2,51 +2,51 @@
 
 <img width="100%" style="border: 1px solid black" src="https://i.imgur.com/YHWRq2l.png">
 
-# FGO Daily Login (中文版)
-FGO Daily Login is a mod of the repository [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
+# FGO自动登录系统 (中文版)（发包程序）
+FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
-It has the following features:
-- No Logs
-- Automatic VerCode Update
-- Change Telegram to Discord Webhook
-- Region JP and NA 
+它具有以下特点：
+- 无日志
+- 全自动游戏版本更新
+- 向你的Discord频道发送登录结果
+- 只支持 JP 和 NA 版本
 
-# Extract your auth data
-You need to extract your authentication data to do this.
-It's simple, all you need to do is navigate to the following path and get the following file: 
+# 提取您的 游戏身份验证数据
+您需要提取身份验证数据才能执行此操作。
+很简单，您所需要做的就是导航到以下路径并获取以下文件： 
 
-| Region | Path | File |
+| 版本 | 文件路径 | 文件名称 |
 | --- | --- | --- | 
 | NA | `android/data/com.aniplex.fategrandorder.en/files/data/` | 54cc790bf952ea710ed7e8be08049531 |
 | JP | `android/data/com.aniplex.fategrandorder/files/data/` | 54cc790bf952ea710ed7e8be08049531 |
 
-# Decript your data
-Be careful with this data, you should not pass this data to other person, this is private data.
+# 解密您的游戏账号数据
+请小心处理这些数据，您不应将此数据传递给其他人，这是直接与服务器通信的私人数据。
 
-1. Open the file with notopad or text editor and copy from **ZSv** to end!
-2. Go to [Compiler Online](https://dotnetfiddle.net/ug7C0x) and paste the string
-3. You will get all necesary data to fill Secrets
-4. Get your user agent of you device (phone or emulator) from [this page](https://www.whatismybrowser.com/detect/what-is-my-user-agent/)
+1. 用记事本或文本编辑器打开文件并从**ZSv**复制到结束！
+2. 转到 [在线解析](https://dotnetfiddle.net/ug7C0x) 并粘贴字符串
+3. 您将获得填写 密钥 所需的所有数据
+4. 获取您设备（手机或模拟器）的用户代理 [从这里](https://www.whatismybrowser.com/detect/what-is-my-user-agent/)
 
-# Discord Webhook 
-To create webhook discord you need create a server in discord and create a text channel, in settings of that channel search
+# 创建 Discord 消息通知机器人
+要创建 webhook Discord，您需要在 Discord 中创建一个服务器并在该频道搜索的设置中创建一个文本频道
 `integration > webhook > create webhook > copy url webhook`
 
-# Cron / Scheluded
-I configure cron of this repository with [VerCode Extractor Repository](https://github.com/O-Isaac/FGO-VerCode-extractor)
-you should configure all cron after update of VerCode Extractor Repository!
+# 执行定时签到任务/定时登录
+我配置这个存储库的 cron [游戏版本代码 VerCode 提取器存储库](https://github.com/O-Isaac/FGO-VerCode-extractor)
+您应该在更新 游戏版本代码 VerCode 提取器存储库 后配置所有 cron！
 
-| Region | Update VerCode Extractor Repository     | Login in FGO Daily Repository       |
+| 版本 | 游戏版本代码 提取器存储库     | 定时登录FGO的时间（世界时UTC+00）      |
 |--------|-------------|-------------|
 | NA     | 15 10 * * * | 30 10 * * * |
 | JP     | 15 19 * * * | 30 19 * * * |
 
-Is not necesary fork the repo of verCode but if you want
-you must change endpoint in main.py in the function `get_latest_verCode`
+没有必要更改其它的 verCode 仓库，但如果你想要的话
+但如果您愿意，则必须更改函数中 main.py 中的端点 `get_latest_verCode`
 
-# Secrets
-Add this enviroment variables into `Repository > settings > secrets > actions`
-| Secret | Example |
+# 填写 游戏账号密钥
+将此下列类型添加到 `Repository > settings > secrets > actions`
+| 密钥 | 样本 |
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
@@ -55,10 +55,10 @@ Add this enviroment variables into `Repository > settings > secrets > actions`
 | GAME_REGION | NA or JP (Must be in upper case) |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
-# Road Map
-- [x] Perform Daily Friend Point Summons
-- [ ] Claim all Saint Quartz and Tickets from gif box 
-- [ ] Make blue apple automatic
+# 未来计划 （咕咕咕🤣）
+- [x] 自动每日友情点召唤
+- [ ] 自动领取礼物盒自动兑换材料票
+- [ ] 自动种蓝苹果🍎
 
-# Acknowledgments 
-- [hexstr](https://github.com/hexstr) author of FGO Daily Bonus
+# 特别鸣谢
+- [hexstr](https://github.com/hexstr) FGO自动登录系统 作者
