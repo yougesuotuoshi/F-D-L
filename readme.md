@@ -2,7 +2,9 @@
 
 <img width="100%" style="border: 1px solid black" src="https://i.imgur.com/YHWRq2l.png">
 
-# FGO自动登录系统 (中文版)（发包程序）
+# FGO自动登录系统（Python发包程序）
+😒封号风险自行承担👌
+
 FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
 它具有以下特点：
