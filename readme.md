@@ -6,7 +6,7 @@
 😒封号风险自行承担👌
 🫠注意，为保证定时登录生效，你需要每60天更新一次这个库，这是github自动流程的要求🫠
 
-✅原来作者 [O-Isaac] https://github.com/O-Isaac/FGO-Daily-Login
+✅作者 [O-Isaac] https://github.com/O-Isaac/FGO-Daily-Login
 
 FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
