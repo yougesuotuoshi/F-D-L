@@ -69,10 +69,18 @@ class ParameterBuilder:
 
 
 class Rewards:
-    def __init__(self, stone, level, ticket):
+    def __init__(self, stone, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail):
         self.stone = stone
         self.level = level
         self.ticket = ticket
+        self.goldenfruit = goldenfruit
+        self.silverfruit = silverfruit
+        self.bronzefruit = bronzefruit
+        self.bluebronzesapling = bluebronzesapling
+        self.bluebronzefruit = bluebronzefruit
+        self.pureprism = pureprism
+        self.sqf01 = sqf01
+        self.holygrail = holygrail
 
 
 class Login:
@@ -128,13 +136,62 @@ class user:
         stone = data['cache']['replaced']['userGame'][0]['stone']
         lv = data['cache']['replaced']['userGame'][0]['lv']
         ticket = 0
+        goldenfruit = 0
+        silverfruit = 0
+        bronzefruit = 0
+        bluebronzesapling = 0
+        bluebronzefruit = 0
+        pureprism = 0
+        sqf01 = 0
+        holygrail = 0
 
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 4001:
                 ticket = item['num']
                 break
+        
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 100:
+                goldenfruit = item['num']
+                break
 
-        rewards = Rewards(stone, lv, ticket)
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 101:
+                silverfruit = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 102:
+                bronzefruit = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 103:
+                bluebronzesapling = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 104:
+                bluebronzefruit = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 46:
+                pureprism = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 16:
+                sqf01 = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 7999:
+                holygrail = item['num']
+                break
+
+        
+        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         DataWebhook.append(rewards)
 
