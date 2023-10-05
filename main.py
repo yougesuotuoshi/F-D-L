@@ -70,15 +70,12 @@ def main():
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
-                logger.info('开始友情点召唤!!')
-                instance.drawFP()
-                time.sleep(2)
                 check_blue_apple_cron(instance)
                 logger.info('尝试购买蓝苹果!')
                 try:
                    instance.buyBlueApple(1)
                    time.sleep(2)
-                   for _ in range(3):
+                   for _ in range(3): 
                       instance.buyBlueApple(1)
                       time.sleep(2)
                 except Exception as ex:
