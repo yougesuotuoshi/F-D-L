@@ -1,6 +1,5 @@
-<img width="100%" style="border: 1px solid black" src="https://i.imgur.com/bre34Xl.png">
 
-<img width="100%" style="border: 1px solid black" src="https://i.imgur.com/YHWRq2l.png">
+<img width="100%" style="border: 1px solid black" src="https://i.imgur.com/YihwKWx.png">
 
 # FGO自动登录系统（Python发包程序）（中文版）
 😒封号风险自行承担👌
@@ -66,7 +65,7 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 # 未来计划 （咕咕咕🤣）
 - [x] 自动每日友情点召唤
 - [ ] 自动领取礼物盒自动兑换材料票
-- [ ] 自动种蓝苹果🍎
+- [x] 自动种蓝苹果🍎
 
 # 特别鸣谢
 - [hexstr](https://github.com/hexstr) FGO自动登录系统 作者
