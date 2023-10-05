@@ -195,7 +195,7 @@ class user:
             main.logger.error("Region not supported.")
             return
         
-        self.builder_.AddParameter('id', '13000000') # 购买蓝苹果 / JP 限定
+        self.builder_.AddParameter('id', '13000000') # 购买蓝苹果 / JP 限定 
         self.builder_.AddParameter('num', str(quantity))
 
         data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
