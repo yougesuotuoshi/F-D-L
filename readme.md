@@ -1,5 +1,5 @@
 
-<img width="100%" style="border: 1px solid black" src="https://i.imgur.com/vyX82NP.png">
+<img width="50%" style="border: 1px solid black" src="https://i.imgur.com/vyX82NP.png">
 
 # FGO自动登录系统（Python发包程序）（中文版）
 😒封号风险自行承担👌
