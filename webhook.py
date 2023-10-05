@@ -92,7 +92,7 @@ def shop(item: str, quantity: str) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO 自动购物系统 - " + main.fate_region,
+                "title": "FGO自动购物系统 - " + main.fate_region,
                 "description": f"购买成功.",
                 "color": 5814783,
                 "fields": [
