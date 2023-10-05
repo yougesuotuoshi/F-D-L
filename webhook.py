@@ -85,6 +85,38 @@ def topLogin(data: list) -> None:
     requests.post(endpoint, json=jsonData, headers=headers)
 
 
+def shop(item: str, quantity: str) -> None:
+    endpoint = main.webhook_discord_url
+    
+    jsonData = {
+        "content": None,
+        "embeds": [
+            {
+                "title": "FGO 自动购物系统 - " + main.fate_region,
+                "description": f"购买成功.",
+                "color": 5814783,
+                "fields": [
+                    {
+                        "name": f"商店",
+                        "value": f"消费 {40 * quantity}Ap 购买 {quantity}x {item}",
+                        "inline": False
+                    }
+                ],
+                "thumbnail": {
+                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
+                }
+            }
+        ],
+        "attachments": []
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    requests.post(endpoint, json=jsonData, headers=headers)
+
+
 def drawFP(servants, missions) -> None:
     endpoint = main.webhook_discord_url
 
