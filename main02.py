@@ -75,7 +75,7 @@ def main():
                    logger.info('开始友情点召唤!!')
                    for _ in range(1): #可定义每次登录时自动抽几次友情10连（默认1次） 
                       instance.drawFP()
-                      time.sleep(2)
+                      time.sleep(4)
                 except Exception as ex:
                     logger.error(ex)
                     
