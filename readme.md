@@ -47,6 +47,15 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 
 🫠 代码格式 30 19 * * * 是指UTC时间 19：30  ，参考 [世界时](https://time.is/zh/compare/utc/Beijing) 
 
+修改 自动流程 [这里](https://github.com/DNNDHH/F-D-L/blob/master/.github/workflows/run.yml) 的代码 自定义 自动登录时间
+ ```console
+  schedule:
+    - cron: "00 03 * * *"
+    - cron: "30 03 * * *"
+    - cron: "30 13 * * *"
+    - cron: "30 17 * * *"
+  ```  
+
 
 # 填写 游戏账号密钥和POST配置
 将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
