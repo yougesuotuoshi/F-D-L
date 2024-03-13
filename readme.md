@@ -45,7 +45,7 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 | JP     | 30 19 * * * |
 
 
-🫠 代码格式 30 19 * * * 是指UTC时间 19：30  ，参考 [世界时](https://time.is/zh/compare/utc/Beijing) 
+🫠 代码格式 30 19 * * * 是指 UTC时间 19：30 = 天朝时间 凌晨3点半 ，参考 [世界时](https://time.is/zh/compare/utc/Beijing) 
 
 修改 自动流程 [这里](https://github.com/DNNDHH/F-D-L/blob/master/.github/workflows/run.yml) 的代码 自定义 自动登录时间
  ```console
