@@ -44,7 +44,8 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 |--------|-------------|
 | JP     | 30 19 * * * |
 
-🫠我已经修改为 天朝时间 中午 12：00 登录第一次 12：30登录第二次！
+
+🫠 代码格式 30 19 * * * 是指UTC时间 19：30  ，参考 [世界时](https://time.is/zh/compare/utc/Beijing) 
 
 
 # 填写 游戏账号密钥和POST配置
