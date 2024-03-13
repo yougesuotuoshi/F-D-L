@@ -41,7 +41,7 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 我配置这个存储库的 cron [游戏版本代码 VerCode 提取器存储库](https://github.com/O-Isaac/FGO-VerCode-extractor)
 您应该在更新 游戏版本代码 VerCode 提取器存储库 后配置所有 cron！
 
-| 版本 | 游戏版本代码 提取器存储库     | 定时登录FGO的时间（世界时UTC+00）      |
+| 版本 | 游戏版本代码 提取器存储库     | 定时登录FGO的时间（世界时 UTC+00 ）      |
 |--------|-------------|-------------|
 | NA     | 15 10 * * * | 30 10 * * * |
 | JP     | 15 19 * * * | 30 19 * * * |
@@ -51,21 +51,23 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 没有必要再次更改其它的游戏版本 verCode 仓库，但如果你想这么干的话
 则必须更改函数中 main.py 中的该值 `get_latest_verCode`
 
-# 填写 游戏账号密钥
+# 填写 游戏账号密钥和POST配置
 将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
 | 密钥 | 样本 |
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
-| GAME_USERAGENT | Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003.A1) or Your User Agent |
+| GAME_USERAGENT | Dalvik/2.1.0 (Linux; U; Android 11; Pixel 5 Build/RD1A.201105.003.A1) 建议不要修改，如要自定义，则需要一并修改 [设备信息](https://github.com/DNNDHH/F-D-L/commit/2dbe2ac8403802d676a69aeb874fedd932ae98e7) |
 | GAME_USERIDS | 60951234,60951235 |
-| GAME_REGION | NA or JP (Must be in upper case) |
+| GAME_REGION | JP |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
-# 未来计划 （咕咕咕🤣）
+# 已完成 
 - [x] 自动每日友情点召唤
-- [ ] 自动领取礼物盒自动兑换材料票
 - [x] 自动种蓝苹果🍎
+
+# 未来计划 （咕咕咕🤣）
+- [ ] 自动领取礼物盒自动兑换材料票
 
 # 特别鸣谢
 - [hexstr](https://github.com/hexstr) FGO自动登录系统 作者
