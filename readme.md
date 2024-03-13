@@ -59,6 +59,13 @@ FGO自动登录是基于此项目的MOD [FGODailyBonus](https://github.com/hexst
 
 # 填写 游戏账号密钥和POST配置
 将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
+
+需要登录多个账号时使用 英文逗号
+ ```console
+,
+  ```
+隔开！ 注意填写 账号密钥 时 顺序相同 ！
+
 | 密钥 | 样本 |
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
