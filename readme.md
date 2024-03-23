@@ -61,7 +61,7 @@
 
 
 # 填写 游戏账号密钥和POST配置
-将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
+将下列 密钥类型 和 账号密钥 添加到 `右上角 > settings > Secrets and variables > actions`
 <img width="75%" style="border: 1px solid black" src="https://i.imgur.com/J7jb6TX.png">
 
 需要登录多个账号时使用 英文逗号
@@ -70,7 +70,7 @@
   ```
 隔开！ 注意填写 账号密钥 时 顺序相同 ！
 
-| 密钥 | 样本 |
+| 密钥类型 | 账号密钥 样本 |
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
