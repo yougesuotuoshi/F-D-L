@@ -62,6 +62,7 @@
 
 # 填写 游戏账号密钥和POST配置
 将此下列类型添加到 `右上角 > settings > Secrets and variables > actions`
+<img width="75%" style="border: 1px solid black" src="https://i.imgur.com/J7jb6TX.png">
 
 需要登录多个账号时使用 英文逗号
  ```console
