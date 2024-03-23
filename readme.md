@@ -29,10 +29,7 @@
 
 请小心处理这些数据，您不应将此数据传递给其他人，这是直接与服务器通信的关键数据，能直接盗你的号！
 
-1. 用记事本或文本编辑器打开文件并从ZSv开始复制到结束！(ZSv前面有一个什么坤八符号…不用复制它)
-
-2. 转到 [在线解析](https://dotnetfiddle.net/ug7C0x) 并粘贴字符串
-3. 您将获得填写 密钥 所需的 所有数据
+1. 下载 FGO-ADET ，查看解密方法, 并解密文件! [FGO-ADET](https://github.com/DNNDHH/FGO-ADET)
 4. 获取您设备（手机或模拟器）的用户代理 [从这里](https://www.whatismybrowser.com/detect/what-is-my-user-agent/)
 
 # 创建 Discord 消息通知机器人
