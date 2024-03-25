@@ -71,7 +71,7 @@
 | --- | --- |
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
-| GAME_USERIDS | 60951234,60951235 |
+| GAME_USERIDS | 1234,1235 |
 | GAME_REGION | JP |
 | GAME_USERAGENT | Dalvik/2.1.0 (Linux; U; Android 14; Pixel 5 Build/UP1A.231105.001) 建议不要修改，如要自定义，则需要一并修改 [设备信息](https://github.com/DNNDHH/F-D-L/commit/2dbe2ac8403802d676a69aeb874fedd932ae98e7) |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
