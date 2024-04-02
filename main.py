@@ -70,6 +70,9 @@ def main():
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
+                instance.lq001()
+                instance.lq002()
+                time.sleep(1)
                 check_blue_apple_cron(instance)
                 logger.info('尝试购买蓝苹果!')
                 try:
