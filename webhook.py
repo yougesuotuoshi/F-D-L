@@ -1,6 +1,7 @@
 import main
 import requests
 import user
+import json
 
 
 def topLogin(data: list) -> None:
@@ -9,6 +10,12 @@ def topLogin(data: list) -> None:
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
+    
+    with open('login.json', 'r', encoding='utf-8')as f:
+        data22 = json.load(f)
+
+        name1 = data22['cache']['replaced']['userGame'][0]['name']
+        fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
 
     messageBonus = ''
     nl = '\n'
@@ -29,6 +36,16 @@ def topLogin(data: list) -> None:
                 "description": f"登录成功。列出角色信息.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
+                    {
+                        "name": "御主名",
+                        "value": f"{name1}",
+                        "inline": True
+                    },
+                    {
+                        "name": "朋友ID",
+                        "value": f"{fpids1}",
+                        "inline": True
+                    },
                     {
                         "name": "等级",
                         "value": f"{rewards.level}",
