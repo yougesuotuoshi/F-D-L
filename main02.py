@@ -66,7 +66,7 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('登录账号!')
-                instance.topLogin()
+                instance.topLogin2()
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
