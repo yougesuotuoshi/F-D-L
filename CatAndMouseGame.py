@@ -17,7 +17,7 @@ def getAssetBundle(assetbundle):
     cipher = py3rijndael.RijndaelCbc(
         key,
         iv,
-        py3rijndael.paddings.Pkcs7Padding(19),
+        py3rijndael.paddings.Pkcs7Padding(16),
         32
     )
 
