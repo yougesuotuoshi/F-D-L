@@ -86,7 +86,7 @@ class ParameterBuilder:
     def Build2(self) -> str:
         self.parameter_list_2.sort(key=lambda tup: tup[0])
         temp = ''
-        for first, second in self.parameter_list_21:
+        for first, second in self.parameter_list_2:
             if temp:
                 temp += '&'
                 self.content_ += '&'
