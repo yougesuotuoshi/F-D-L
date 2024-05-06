@@ -1,21 +1,22 @@
 
 <img width="50%" style="border: 1px solid black" src="https://i.imgur.com/azBO1qu.png">
 
-# FGO自动登录 (Python 自定义发包Post)
+# FGO每日自动登录
 
-🤓有巨大封号风险自行承担👌
+🤓这么多年来…就目前来说有那么亿点点封号风险(^_-)-☆
 
-🫠注意，为保证定时登录生效，你需要每60天更新一次这个库，这是github自动流程的要求🫠
+该修改版项目源及原作者
 
-✅作者 [O-Isaac] https://github.com/O-Isaac/FGO-Daily-Login
+[hexstr](https://github.com/hexstr) 
+ [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
-这个 FGO自动登录 是基于此项目的MOD [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
 它具有以下特点：
-- 没有日志
+- 不会产生日志
 - 全自动游戏版本更新同步
 - 向你的Discord频道发送登录结果等信息
-- 只支持 JP 版本 
+- 只支持 JP 版本游戏(日服)😛
+
 
 # 提取您的 游戏账号数据
 您需要提取账号数据才能执行此操作。
@@ -82,7 +83,7 @@
 - [x] 自动领取礼物盒
 
 # 未来计划 （咕咕咕🤣）
-- [ ] ....想要什么功能。。你来说。。。
+- [ ] ....想要什么功能。。你来说。。
 
 # 感谢
-- [hexstr](https://github.com/hexstr) FGO自动登录系统 作者
+- [hexstr](https://github.com/hexstr) 
