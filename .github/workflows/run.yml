@@ -3,6 +3,13 @@ name: FGO Login System
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "00 03 * * *"
+    - cron: "30 03 * * *"
+    - cron: "30 13 * * *"
+    - cron: "30 17 * * *"
 
   workflow_dispatch:
 
@@ -30,6 +37,13 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          IDEMPOTENCY_KEY_SECRET: ${{ secrets.IDEMPOTENCY_KEY_SECRET }}
+          IDEMPOTENCY_KEY_SIGNATURE_SECRET: ${{ secrets.IDEMPOTENCY_KEY_SIGNATURE_SECRET }}
+          LAST_ACCESS_TIME_SECRET: ${{ secrets.LAST_ACCESS_TIME_SECRET }}
+          AUTH_CODE_SECRET: ${{ secrets.AUTH_CODE_SECRET }}
+          DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
+          USER_STATE_SECRET: ${{ secrets.USER_STATE_SECRET }}
+          USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
 
       - name: Execute main script 2
         run: |
@@ -41,3 +55,11 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          IDEMPOTENCY_KEY_SECRET: ${{ secrets.IDEMPOTENCY_KEY_SECRET }}
+          IDEMPOTENCY_KEY_SIGNATURE_SECRET: ${{ secrets.IDEMPOTENCY_KEY_SIGNATURE_SECRET }}
+          LAST_ACCESS_TIME_SECRET: ${{ secrets.LAST_ACCESS_TIME_SECRET }}
+          AUTH_CODE_SECRET: ${{ secrets.AUTH_CODE_SECRET }}
+          DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
+          USER_STATE_SECRET: ${{ secrets.USER_STATE_SECRET }}
+          USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
+
