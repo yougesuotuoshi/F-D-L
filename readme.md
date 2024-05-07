@@ -35,11 +35,11 @@
 1. 下载 FGO-ADET ，查看解密方法, 并解密文件! [FGO-ADET](https://github.com/DNNDHH/FGO-ADET)
 2. 获取您设备（手机或模拟器）的用户代理:
     1. 使用 ADB 連接到你的手機
-    2. 輸入 `adb shell getprop ro.build.version.release` 取得自己手機的 {Release build}
-    3. 輸入 `adb shell getprop ro.product.model` 取得自己手機的 {Model}
-    4. 輸入 `adb shell getprop ro.build.version.incremental` 取得自己手機的 {Incremental}
-    5. 輸入 `adb shell getprop ro.build.version.sdk` 取得自己手機的 {API level}
-    6. 輸入 `adb shell getprop ro.build.id` 取得自己手機的 {Id}
+    2. 輸入 `adb shell getprop ro.build.version.release` 取得自己手機的 `{Release build}`
+    3. 輸入 `adb shell getprop ro.product.model` 取得自己手機的 `{Model}`
+    4. 輸入 `adb shell getprop ro.build.version.incremental` 取得自己手機的 `{Incremental}`
+    5. 輸入 `adb shell getprop ro.build.version.sdk` 取得自己手機的 `{API level}`
+    6. 輸入 `adb shell getprop ro.build.id` 取得自己手機的 `{Id}`
     7. 將 1 ~ 6 步驟取得的值依照下列大括號中的名稱進行替換(如不清楚如何替換可以參考[下面的範例](https://github.com/Zhen-Bo/F-D-L/blob/master/readme.md#%E5%A1%AB%E5%86%99-%E6%B8%B8%E6%88%8F%E8%B4%A6%E5%8F%B7%E5%AF%86%E9%92%A5%E5%92%8Cpost%E9%85%8D%E7%BD%AE))
         1. USER_AGENT_SECRET_2 = `Dalvik/2.1.0 (Linux; U; Android {Release build}; {Model} Build/{Id})`
         2. DEVICE_INFO_SECRET = `{Model} / Android OS {Release build} / API-{API level} ({Id}/{Incremental})`
