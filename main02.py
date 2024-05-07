@@ -70,7 +70,6 @@ def main():
                 instance.SignedData()
                 time.sleep(1)
                 instance.topLogin_s()
-                instance.topLogin_s()
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
