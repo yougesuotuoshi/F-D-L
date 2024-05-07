@@ -158,6 +158,8 @@ class user:
     def topLogin_s(self):
         DataWebhook = []  # This data will be use in discord webhook!
 
+        device_info = os.environ.get('DEVICE_INFO_SECRET')
+
         with open("signature.txt", 'r', encoding='utf-8') as dk_ss:
             value = dk_ss.read().strip()
 
