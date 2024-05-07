@@ -5,10 +5,12 @@
 
 🤓这么多年来…就目前来说有那么亿点点封号风险(^_-)-☆
 
+
 该修改版项目源及原作者
 
-[hexstr](https://github.com/hexstr) 
- [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
+- [hexstr](https://github.com/hexstr) 
+
+- [FGODailyBonus](https://github.com/hexstr/FGODailyBonus)
 
 
 它具有以下特点：
@@ -74,7 +76,9 @@
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_USERIDS | 1234,1235 |
 | GAME_REGION | JP |
-| GAME_USERAGENT | Dalvik/2.1.0 (Linux; U; Android 14; Pixel 5 Build/UP1A.231105.001) 建议不要修改，如要自定义，则需要一并修改 [设备信息](https://github.com/DNNDHH/F-D-L/commit/2dbe2ac8403802d676a69aeb874fedd932ae98e7) |
+| USER_AGENT_SECRET_2 | Dalvik/2.1.0 (Linux; U; Android 14; Pixel 5 Build/UP1A.231105.001) 建议不要照抄 |
+| IDEMPOTENCY_KEY_SIGNATURE_SECRET | https://fgo.xiaoheimao.workers.dev/getSignature? 或者 https://worker.chaldea.center/api/v4/tool/sign-data |
+| DEVICE_INFO_SECRET | Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346) 建议不要照抄 |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
 # 已完成 
