@@ -14,13 +14,8 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-idempotency_key = os.environ.get('IDEMPOTENCY_KEY_SECRET')
 idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
-last_access_time = os.environ.get('LAST_ACCESS_TIME_SECRET')
-auth_code1 = os.environ.get('AUTH_CODE_SECRET')
-device_info = os.environ.get('DEVICE_INFO_SECRET')
-user_state = os.environ.get('USER_STATE_SECRET')
-user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
+
 
 
 UA = os.environ['UserAgent']
