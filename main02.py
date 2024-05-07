@@ -19,12 +19,6 @@ device_info = os.environ.get('DEVICE_INFO_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 
 
-
-UA = os.environ['UserAgent']
-
-if UA:
-    fgourl.user_agent_ = UA
-
 userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
