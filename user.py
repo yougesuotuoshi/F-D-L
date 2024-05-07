@@ -17,9 +17,14 @@ import sys
 import binascii
 import random
 import time
+import requests
+import shutil
+
+
 
 from urllib.parse import quote_plus
 from libs.GetSubGachaId import GetGachaSubIdFP
+from fake_useragent import UserAgent
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
@@ -27,38 +32,24 @@ class ParameterBuilder:
         self.auth_key_ = auth_key
         self.secret_key_ = secret_key
         self.content_ = ''
+        self.idempotency_key_ = str(uuid.uuid4()) 
         self.parameter_list_ = [
             ('appVer', fgourl.app_ver_),
             ('authKey', self.auth_key_),
             ('dataVer', str(fgourl.data_ver_)),
             ('dateVer', str(fgourl.date_ver_)),
-            ('idempotencyKey', str(uuid.uuid4())),
+            ('idempotencyKey', self.idempotency_key_), 
             ('lastAccessTime', str(mytime.GetTimeStamp())),
             ('userId', self.uid_),
             ('verCode', fgourl.ver_code_),
         ]
-        
-        idempotency_key = os.environ.get('IDEMPOTENCY_KEY_SECRET')
-        idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
-        last_access_time = os.environ.get('LAST_ACCESS_TIME_SECRET')
-        
-        self.parameter_list_2 = [
-            ('appVer', fgourl.app_ver_),
-            ('authKey', self.auth_key_),
-            ('dataVer', str(fgourl.data_ver_)),
-            ('dateVer', str(fgourl.date_ver_)),
-            ('idempotencyKey', idempotency_key),
-            ('idempotencyKeySignature', idempotency_key_signature),
-            ('lastAccessTime', last_access_time),
-            ('userId', self.uid_),
-            ('verCode', fgourl.ver_code_),
-        ]
+
+        with open('idempotency_key.txt', 'w', encoding='utf-8')as file:
+            file.write(self.idempotency_key_)
 
     def AddParameter(self, key: str, value: str):
         self.parameter_list_.append((key, value))
         
-    def AddParameter2(self, key: str, value: str):
-        self.parameter_list_2.append((key, value))
 
     def Build(self) -> str:
         self.parameter_list_.sort(key=lambda tup: tup[0])
@@ -83,30 +74,6 @@ class ParameterBuilder:
 
         return self.content_
 
-    def Build2(self) -> str:
-        self.parameter_list_2.sort(key=lambda tup: tup[0])
-        temp = ''
-        for first, second in self.parameter_list_2:
-            if temp:
-                temp += '&'
-                self.content_ += '&'
-            escaped_key = quote_plus(first)
-            if not second:
-                temp += first + '='
-                self.content_ += escaped_key + '='
-            else:
-                escaped_value = quote_plus(second)
-                temp += first + '=' + second
-                self.content_ += escaped_key + '=' + escaped_value
-
-        auth_code1 = os.environ.get('AUTH_CODE_SECRET')
-
-        temp += f'&authCode={auth_code1}'
-        self.content_ += f'&authCode={auth_code1}'
-
-        return self.content_
-
-    
     def Clean(self):
         self.content_ = ''
         self.parameter_list_ = [
@@ -168,148 +135,31 @@ class user:
         res = fgourl.PostReq(self.s_, url, self.builder_.Build())
         self.builder_.Clean()
         return res
-        
-    def Post2(self, url):
-        res = fgourl.PostReq(self.s_, url, self.builder_.Build2())
-        self.builder_.Clean()
-        return res
+
+    def SignedData(self):
+
+        idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
+
+        with open("idempotency_key.txt", 'r', encoding='utf-8') as dk_idk:
+            idk = dk_idk.read().strip()
+            
+        url = f'{idempotency_key_signature}userId={self.user_id_}&idempotencyKey={idk}'
+
+        ua = UserAgent()
+        headers = {
+            'User-Agent': ua.random
+        }
+
+        result = requests.get(url, headers=headers, verify=False).text
+
+        with open("signature.txt", "w", encoding="utf-8") as file:
+            file.write(result)
 
     def topLogin_s(self):
         DataWebhook = []  # This data will be use in discord webhook!
 
-        device_info = os.environ.get('DEVICE_INFO_SECRET')
-        user_state = os.environ.get('USER_STATE_SECRET')
-        
-        self.builder_.AddParameter2(
-            'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter2('deviceInfo', device_info)
-        self.builder_.AddParameter2('isTerminalLogin', '1')
-        self.builder_.AddParameter2('userState', user_state)
-
-        data = self.Post2(
-            f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
-
-        responses = data['response']
-        
-        with open('login.json', 'w', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-
-        self.name_ = hashlib.md5(
-            data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
-        stone = data['cache']['replaced']['userGame'][0]['stone']
-        lv = data['cache']['replaced']['userGame'][0]['lv']
-        ticket = 0
-        goldenfruit = 0
-        silverfruit = 0
-        bronzefruit = 0
-        bluebronzesapling = 0
-        bluebronzefruit = 0
-        pureprism = 0
-        sqf01 = 0
-        holygrail = 0
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 4001:
-                ticket = item['num']
-                break
-        
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 100:
-                goldenfruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 101:
-                silverfruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 102:
-                bronzefruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 103:
-                bluebronzesapling = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 104:
-                bluebronzefruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 46:
-                pureprism = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 16:
-                sqf01 = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 7999:
-                holygrail = item['num']
-                break
-
-        
-        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
-
-        DataWebhook.append(rewards)
-
-        login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
-        total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
-
-        act_max = data['cache']['replaced']['userGame'][0]['actMax']
-        act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
-        now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
-
-        add_fp = data['response'][0]['success']['addFriendPoint']
-        total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']
-
-        login = Login(
-            self.name_,
-            login_days,
-            total_days,
-            act_max, act_recover_at,
-            now_act,
-            add_fp,
-            total_fp
-        )
-
-        DataWebhook.append(login)
-
-        if 'seqLoginBonus' in data['response'][0]['success']:
-            bonus_message = data['response'][0]['success']['seqLoginBonus'][0]['message']
-
-            items = []
-            items_camp_bonus = []
-
-            for i in data['response'][0]['success']['seqLoginBonus'][0]['items']:
-                items.append(f'{i["name"]} x{i["num"]}')
-
-            if 'campaignbonus' in data['response'][0]['success']:
-                bonus_name = data['response'][0]['success']['campaignbonus'][0]['name']
-                bonus_detail = data['response'][0]['success']['campaignbonus'][0]['detail']
-
-                for i in data['response'][0]['success']['campaignbonus'][0]['items']:
-                    items_camp_bonus.append(f'{i["name"]} x{i["num"]}')
-            else:
-                bonus_name = None
-                bonus_detail = None
-
-            bonus = Bonus(bonus_message, items, bonus_name,
-                          bonus_detail, items_camp_bonus)
-            DataWebhook.append(bonus)
-        else:
-            DataWebhook.append("No Bonus")
-
-        webhook.topLogin(DataWebhook)
-
-    
-    def topLogin(self):
-        DataWebhook = []  # This data will be use in discord webhook!
+        with open("signature.txt", 'r', encoding='utf-8') as dk_ss:
+            value = dk_ss.read().strip()
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
         userState = (-int(lastAccessTime) >>
@@ -317,7 +167,8 @@ class user:
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', 'Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346)')
+        self.builder_.AddParameter('idempotencyKeySignature', value)
+        self.builder_.AddParameter('deviceInfo', device_info)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
@@ -441,139 +292,6 @@ class user:
             DataWebhook.append("No Bonus")
 
         webhook.topLogin(DataWebhook)
-
-    def topLogin2(self):
-        DataWebhook = []  # This data will be use in discord webhook!
-
-        lastAccessTime = self.builder_.parameter_list_[5][1]
-        userState = (-int(lastAccessTime) >>
-                     2) ^ self.user_id_ & fgourl.data_server_folder_crc_
-
-        self.builder_.AddParameter(
-            'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', 'Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346)')
-        self.builder_.AddParameter('isTerminalLogin', '1')
-        self.builder_.AddParameter('userState', str(userState))
-
-        data = self.Post(
-            f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
-
-        responses = data['response']
-        
-        with open('login.json', 'w', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-
-        self.name_ = hashlib.md5(
-            data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
-        stone = data['cache']['replaced']['userGame'][0]['stone']
-        lv = data['cache']['replaced']['userGame'][0]['lv']
-        ticket = 0
-        goldenfruit = 0
-        silverfruit = 0
-        bronzefruit = 0
-        bluebronzesapling = 0
-        bluebronzefruit = 0
-        pureprism = 0
-        sqf01 = 0
-        holygrail = 0
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 4001:
-                ticket = item['num']
-                break
-        
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 100:
-                goldenfruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 101:
-                silverfruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 102:
-                bronzefruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 103:
-                bluebronzesapling = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 104:
-                bluebronzefruit = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 46:
-                pureprism = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 16:
-                sqf01 = item['num']
-                break
-
-        for item in data['cache']['replaced']['userItem']:
-            if item['itemId'] == 7999:
-                holygrail = item['num']
-                break
-
-        
-        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
-
-        DataWebhook.append(rewards)
-
-        login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
-        total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
-
-        act_max = data['cache']['replaced']['userGame'][0]['actMax']
-        act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
-        now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
-
-        add_fp = data['response'][0]['success']['addFriendPoint']
-        total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']
-
-        login = Login(
-            self.name_,
-            login_days,
-            total_days,
-            act_max, act_recover_at,
-            now_act,
-            add_fp,
-            total_fp
-        )
-
-        DataWebhook.append(login)
-
-        if 'seqLoginBonus' in data['response'][0]['success']:
-            bonus_message = data['response'][0]['success']['seqLoginBonus'][0]['message']
-
-            items = []
-            items_camp_bonus = []
-
-            for i in data['response'][0]['success']['seqLoginBonus'][0]['items']:
-                items.append(f'{i["name"]} x{i["num"]}')
-
-            if 'campaignbonus' in data['response'][0]['success']:
-                bonus_name = data['response'][0]['success']['campaignbonus'][0]['name']
-                bonus_detail = data['response'][0]['success']['campaignbonus'][0]['detail']
-
-                for i in data['response'][0]['success']['campaignbonus'][0]['items']:
-                    items_camp_bonus.append(f'{i["name"]} x{i["num"]}')
-            else:
-                bonus_name = None
-                bonus_detail = None
-
-            bonus = Bonus(bonus_message, items, bonus_name,
-                          bonus_detail, items_camp_bonus)
-            DataWebhook.append(bonus)
-        else:
-            DataWebhook.append("No Bonus")
-
 
     def buyBlueApple(self, quantity=1):
         # https://game.fate-go.jp/shop/purchase
