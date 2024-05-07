@@ -14,13 +14,8 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-idempotency_key = os.environ.get('IDEMPOTENCY_KEY_SECRET')
 idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
-last_access_time = os.environ.get('LAST_ACCESS_TIME_SECRET')
-auth_code1 = os.environ.get('AUTH_CODE_SECRET')
-device_info = os.environ.get('DEVICE_INFO_SECRET')
-user_state = os.environ.get('USER_STATE_SECRET')
-user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
+
 
 
 UA = os.environ['UserAgent']
@@ -65,7 +60,6 @@ def get_latest_verCode():
 
 def main():
     if userNums == authKeyNums and userNums == secretKeyNums:
-        logger.info('Getting Lastest Assets Info')
         fgourl.set_latest_assets()
 
         for i in range(userNums):
@@ -73,6 +67,9 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('登录账号!')
+                instance.SignedData()
+                time.sleep(1)
+                instance.topLogin_s()
                 instance.topLogin_s()
                 time.sleep(2)
                 instance.topHome()
