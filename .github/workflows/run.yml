@@ -2,9 +2,9 @@ name: FGO Login System
 
 on:
   push:
-    branches: [master1]
+    branches: [master]
   pull_request:
-    branches: [master1]
+    branches: [master]
   schedule:
     - cron: "00 03 * * *"
     - cron: "30 03 * * *"
@@ -19,13 +19,14 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-
     steps:
-      - name: Install Requeriments
-        run: pip install -r https://raw.githubusercontent.com/DNNDHH/F-D-L/master/requirements.txt
-
+    
       - name: Gettings files from Repo
         uses: actions/checkout@v2
+        
+      - name: Install Requeriments
+        run: |
+          pip install -r requirements.txt
 
       - name: Execute main script 1
         run: |
