@@ -203,6 +203,7 @@ def drawFP(servants, missions) -> None:
                 "description": f"完成当日免费友情抽卡。列出抽卡结果.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
+                    {
                         "name": "友情卡池",
                         "value": f"{message_servant}",
                         "inline": False
