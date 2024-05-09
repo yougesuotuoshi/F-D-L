@@ -24,6 +24,17 @@ secretKeyNums = len(secretKeys)
 logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
+def check_blue_apple_cron(instance):
+    if blue_apple_cron:
+
+        cron = croniter(blue_apple_cron)
+        next_date = cron.get_next(datetime)
+        current_date = datetime.now()
+        
+        if current_date >= next_date:
+            instance.buyBlueApple(1)
+            time.sleep(2)
+
 def get_latest_verCode():
     endpoint = "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
     response = requests.get(endpoint).text
