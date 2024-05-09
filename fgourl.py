@@ -78,4 +78,9 @@ def PostReq(s, url, data):
     res = s.post(url, data=data, headers=httpheader, verify=False).json()
     res_code = res['response'][0]['resCode']
 
+    if res_code != '00':
+        detail = res['response'][0]['fail']['detail']
+        message = f'[ErrorCode: {res_code}]\n{detail}'
+        raise Exception(message)
+
     return res
