@@ -520,7 +520,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"读取礼物盒!")
+        main.logger.info(f"\n ======================================== \n [+] 读取礼物盒 \n ======================================== " )
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
