@@ -180,6 +180,12 @@ def drawFP(servants, missions) -> None:
 
     message_mission = ""
     message_servant = ""
+    
+    with open('login.json', 'r', encoding='utf-8')as f:
+        data22 = json.load(f)
+
+        name1 = data22['cache']['replaced']['userGame'][0]['name']
+        fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
 
     if (len(servants) > 0):
         servants_atlas = requests.get(
@@ -204,6 +210,10 @@ def drawFP(servants, missions) -> None:
                 "color": 5750876,
                 "fields": [
                     {
+                        "name": "账号",
+                        "value": f"御主: {name1} ID: {fpids1}",
+                        "inline": True
+                    },
                         "name": "友情卡池",
                         "value": f"{message_servant}",
                         "inline": False
