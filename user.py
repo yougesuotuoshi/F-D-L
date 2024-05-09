@@ -44,8 +44,8 @@ class ParameterBuilder:
             ('verCode', fgourl.ver_code_),
         ]
 
-        with open('idempotency_key.txt', 'w', encoding='utf-8')as file:
-            file.write(self.idempotency_key_)
+    def get_idempotency_key(self):
+        return self.idempotency_key_
 
     def AddParameter(self, key: str, value: str):
         self.parameter_list_.append((key, value))
@@ -136,40 +136,26 @@ class user:
         self.builder_.Clean()
         return res
 
-    def SignedData(self):
-
+    def topLogin_s(self):
+        DataWebhook = []  
+        
+        idk = self.builder_.get_idempotency_key()
         idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
-
-        with open("idempotency_key.txt", 'r', encoding='utf-8') as dk_idk:
-            idk = dk_idk.read().strip()
-            
-        url = f'{idempotency_key_signature}userId={self.user_id_}&idempotencyKey={idk}'
-
+        device_info = os.environ.get('DEVICE_INFO_SECRET')
         ua = UserAgent()
         headers = {
             'User-Agent': ua.random
         }
-
+        url = f'{idempotency_key_signature}userId={self.user_id_}&idempotencyKey={idk}'
         result = requests.get(url, headers=headers, verify=False).text
-
-        with open("signature.txt", "w", encoding="utf-8") as file:
-            file.write(result)
-
-    def topLogin_s(self):
-        DataWebhook = []  # This data will be use in discord webhook!
-
-        device_info = os.environ.get('DEVICE_INFO_SECRET')
-
-        with open("signature.txt", 'r', encoding='utf-8') as dk_ss:
-            value = dk_ss.read().strip()
-
+        
         lastAccessTime = self.builder_.parameter_list_[5][1]
         userState = (-int(lastAccessTime) >>
                      2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('idempotencyKeySignature', value)
+        self.builder_.AddParameter('idempotencyKeySignature', result)
         self.builder_.AddParameter('deviceInfo', device_info)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
@@ -335,13 +321,13 @@ class user:
         if main.fate_region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
             if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
+                gachaSubId = "0" 
             self.builder_.AddParameter('gachaSubId', gachaSubId)
             main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
         else:
             gachaSubId = GetGachaSubIdFP("JP")
             if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
+                gachaSubId = "0" 
             self.builder_.AddParameter('gachaSubId', gachaSubId)
             main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
@@ -393,19 +379,18 @@ class user:
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
-        
         with open('login.json', 'r', encoding='utf-8')as f:
             data = json.load(f)
 
         present_ids = []
         for item in data['cache']['replaced']['userPresentBox']:
-            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000]:
+            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
                 present_ids.append(str(item['presentId']))
 
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"解析完成!")
+        main.logger.info(f"礼物盒内容解析完成!")
 
         time.sleep(1)
 
