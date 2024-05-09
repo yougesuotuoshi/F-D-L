@@ -60,7 +60,7 @@ def main():
                 time.sleep(2)
                 try:
                    time.sleep(2)
-                   logger.info('进行友情点召唤')
+                   logger.info(f"\n ======================================== \n [+] 进行友情点召唤 \n ======================================== " )
                    for _ in range(1): # 可定义每次登录时自动抽几次友情10连（默认1次） 
                       instance.drawFP()
                       time.sleep(4)
