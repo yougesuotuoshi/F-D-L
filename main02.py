@@ -41,13 +41,7 @@ def check_blue_apple_cron(instance):
 
 
 def get_latest_verCode():
-    endpoint = ""
-
-    if fate_region == "NA":
-        endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/NA/VerCode.json"
-    else:
-        endpoint += "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
-
+    endpoint = "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -62,18 +56,17 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('登录账号!')
-                time.sleep(1)
-                instance.topLogin_s()
+                instance.topLogin_l()
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
                 try:
                    time.sleep(2)
-                   logger.info('开始友情点召唤!!')
-                   for _ in range(1): #可定义每次登录时自动抽几次友情10连（默认1次） 
+                   logger.info('进行友情点召唤')
+                   for _ in range(1): # 可定义每次登录时自动抽几次友情10连（默认1次） 
                       instance.drawFP()
                       time.sleep(4)
+                       
                 except Exception as ex:
                     logger.error(ex)
                     
