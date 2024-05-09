@@ -7,7 +7,6 @@ import user
 import coloredlogs
 import logging
 
-# Enviroments Variables
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
@@ -25,28 +24,8 @@ secretKeyNums = len(secretKeys)
 logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
-
-def check_blue_apple_cron(instance):
-    if blue_apple_cron:
-
-        cron = croniter(blue_apple_cron)
-        next_date = cron.get_next(datetime)
-        current_date = datetime.now()
-        
-        if current_date >= next_date:
-            logger.info('Trying buy one blue apple!')
-            instance.buyBlueApple(1)
-            time.sleep(2)
-
-
 def get_latest_verCode():
-    endpoint = ""
-
-    if fate_region == "NA":
-        endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/NA/VerCode.json"
-    else:
-        endpoint += "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
-
+    endpoint += "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -74,17 +53,27 @@ def main():
                 check_blue_apple_cron(instance)
                 logger.info('尝试购买蓝苹果!')
                 try:
-                   instance.buyBlueApple(1)
-                   time.sleep(2)
-                   for _ in range(3): 
-                      instance.buyBlueApple(1)
-                      time.sleep(2)
+                    instance.buyBlueApple(1)
+                    time.sleep(2)
+                    for _ in range(3): # 默认购买3个蓝苹果 ，需要 （120AP  3青銅树苗）
+                        instance.buyBlueApple(1)
+                        time.sleep(2)
+                        try:
+                            time.sleep(1)
+                            instance.topHome()
+                            time.sleep(1)
+                            logger.info('开始友情点召唤!!')
+                            for _ in range(1):  # 可定义每次登录时自动抽几次友情10连 （默认1次） 
+                                instance.drawFP()
+                                time.sleep(4)
+                        except Exception as ex:
+                            logger.error(ex)
                 except Exception as ex:
                     logger.error(ex)
                     
             except Exception as ex:
                 logger.error(ex)
 
-
 if __name__ == "__main__":
     main()
+
