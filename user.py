@@ -468,13 +468,13 @@ class user:
             if gachaSubId is None:
                 gachaSubId = "0" 
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"\n ======================================== \n [+] 读取到的 GachaSub Id： {gachaSubId} \n ======================================== " )
+            main.logger.info(f"\n ======================================== \n [+] 召唤卡池GachaSubId ： {gachaSubId} \n ======================================== " )
         else:
             gachaSubId = GetGachaSubIdFP("JP")
             if gachaSubId is None:
                 gachaSubId = "0" 
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"\n ======================================== \n [+] 读取到的 GachaSub Id： {gachaSubId} \n ======================================== " )
+            main.logger.info(f"\n ======================================== \n [+] 召唤卡池GachaSubId ： {gachaSubId} \n ======================================== " )
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
