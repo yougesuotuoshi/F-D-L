@@ -60,30 +60,24 @@ def main():
                 instance.lq001()
                 instance.lq002()
                 time.sleep(2)
-
+                logger.info('进行友情点召唤')
+                instance.drawFP()
                 check_blue_apple_cron(instance)
-                logger.info('尝试购买蓝苹果!')
+                logger.info('尝试购买蓝苹果')
                 try:
                     instance.buyBlueApple(1)
                     time.sleep(2)
                     for _ in range(3): # 默认购买3个蓝苹果 ，需要 （120AP  3青銅树苗）
                         instance.buyBlueApple(1)
                         time.sleep(2)
-                        try:
-                            time.sleep(1)
-                            instance.topHome()
-                            time.sleep(1)
-                            logger.info('开始友情点召唤!!')
-                            for _ in range(1):  # 可定义每次登录时自动抽几次友情10连 （默认1次） 
-                                instance.drawFP()
-                                time.sleep(4)
-                        except Exception as ex:
-                            logger.error(ex)
+
                 except Exception as ex:
                     logger.error(ex)
+                    pass
                     
             except Exception as ex:
                 logger.error(ex)
+                pass
 
 if __name__ == "__main__":
     main()
