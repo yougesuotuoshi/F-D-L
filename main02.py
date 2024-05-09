@@ -7,7 +7,6 @@ import user
 import coloredlogs
 import logging
 
-# Enviroments Variables
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
@@ -35,7 +34,6 @@ def check_blue_apple_cron(instance):
         current_date = datetime.now()
         
         if current_date >= next_date:
-            logger.info('Trying buy one blue apple!')
             instance.buyBlueApple(1)
             time.sleep(2)
 
