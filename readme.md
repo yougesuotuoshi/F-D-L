@@ -43,10 +43,10 @@ adb shell cp /storage/emulated/0/Android/data/com.aniplex.fategrandorder/files/d
 
 请小心处理这些数据，你不应将此数据传递给其他人，这是直接与服务器通信的关键数据，能直接盗你的号！
 
-1. 下载 FGO-ADET ，查看解密方法, 并解密游戏文件! [FGO-ADET](https://github.com/DNNDHH/FGO-ADET)
-2. userId 填写到 GAME_USERIDS 
-3. authKey 填写到 GAME_AUTHKEYS
-4. secretKey 填写到 GAME_SECRETKEYS
+1. 下载 FGO-ADET ，按照解密方法, 并解密游戏文件! [FGO-ADET](https://github.com/DNNDHH/FGO-ADET)
+2. 将userId.txt中的值 填写到 GAME_USERIDS 
+3. 将authKey.txt中的值 填写到 GAME_AUTHKEYS
+4. 将secretKey.txt中的值 填写到 GAME_SECRETKEYS
 
 # 3. 获取设备信息
 
