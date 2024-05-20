@@ -447,34 +447,61 @@ class user:
             DataWebhook.append("No Bonus")
 
 
-    def buyBlueApple(self, quantity=1):
-        # https://game.fate-go.jp/shop/purchase
+    def buyBlueApple(self):
+        with open('login.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
 
-        if main.fate_region != "JP":
-            main.logger.error(f"\n ======================================== \n [+] 只支持 JP 游戏 \n ======================================== " )
-            return
-        
-        self.builder_.AddParameter('id', '13000000') # 购买蓝苹果 / JP 限定 
-        self.builder_.AddParameter('num', str(quantity))
+            actRecoverAt = data['cache']['replaced']['userGame'][0]['actRecoverAt']
+            actMax = data['cache']['replaced']['userGame'][0]['actMax']
+            carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
+            serverTime = data['cache']['serverTime']
+            
+            bluebronzesapling = 0 
+            for item in data['cache']['replaced']['userItem']:
+                if item['itemId'] == 103:
+                    bluebronzesapling = item['num']
+                    break
+                    
+            ap_points = actRecoverAt - serverTime
+            
+            if ap_points > 0:
+               lost_ap_point = (ap_points + 299) // 300
+               
+               if actMax >= lost_ap_point:
+                   remaining_ap = actMax - lost_ap_point
+                   remaining_ap_int = int(remaining_ap)
 
-        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-        responses = data['response']
 
-        for response in responses:
-            resCode = response['resCode']
-            resSuccess = response['success']
-            nid = response["nid"]
+               if bluebronzesapling > 0:
+                   quantity = remaining_ap_int // 40
+                   if bluebronzesapling < quantity:
+                       num_to_purchase = bluebronzesapling
+                   else:
+                       num_to_purchase = quantity
 
-            if (resCode != "00"):
-                continue
+                   self.builder_.AddParameter('id', '13000000')
+                   self.builder_.AddParameter('num', str(num_to_purchase))
 
-            if nid == "purchase":
-                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
-                    purchaseName = resSuccess['purchaseName']
-                    purchaseNum = resSuccess['purchaseNum']
+                   data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
+                   responses = data['response']
 
-                    main.logger.info(f"\n ======================================== \n [+] {purchaseNum}x {purchaseName} 购买成功 \n ======================================== " )
-                    webhook.shop(purchaseName, purchaseNum)
+                   for response in responses:
+                       resCode = response['resCode']
+                       resSuccess = response['success']
+                       nid = response["nid"]
+
+                       if (resCode != "00"):
+                           continue
+
+                       if nid == "purchase":
+                           if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                               purchaseName = resSuccess['purchaseName']
+                               purchaseNum = resSuccess['purchaseNum']
+
+                               main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} 购买成功\n========================================")
+                               webhook.shop(purchaseName, purchaseNum)
+               else:
+                   main.logger.info(" 青銅の苗木が足りないヽ (*。>Д<)o゜ ")
     
 
     def drawFP(self):
