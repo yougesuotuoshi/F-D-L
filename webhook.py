@@ -11,12 +11,6 @@ def topLogin(data: list) -> None:
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
     
-    with open('login.json', 'r', encoding='utf-8')as f:
-        data22 = json.load(f)
-
-        name1 = data22['cache']['replaced']['userGame'][0]['name']
-        fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
-
     messageBonus = ''
     nl = '\n'
 
@@ -38,12 +32,12 @@ def topLogin(data: list) -> None:
                 "fields": [
                     {
                         "name": "御主名",
-                        "value": f"{name1}",
+                        "value": f"{login.name1}",
                         "inline": True
                     },
                     {
                         "name": "朋友ID",
-                        "value": f"{fpids1}",
+                        "value": f"{login.fpids1}",
                         "inline": True
                     },
                     {
@@ -117,8 +111,8 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "当前最大AP",
-                        "value": f"{login.act_max}",
+                        "name": "当前AP",
+                        "value": f"{login.remaining_ap}",
                         "inline": True
                     },
                     {
