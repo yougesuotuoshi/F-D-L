@@ -167,7 +167,7 @@ class user:
         
         with open('login.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-
+        
         self.name_ = hashlib.md5(
             data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
         stone = data['cache']['replaced']['userGame'][0]['stone']
@@ -234,9 +234,22 @@ class user:
 
         login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
         total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
+        name1 = data['cache']['replaced']['userGame'][0]['name']
+        fpids1 = data['cache']['replaced']['userGame'][0]['friendCode']
 
         act_max = data['cache']['replaced']['userGame'][0]['actMax']
         act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
+        carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
+        serverTime = data['cache']['serverTime']
+        ap_points = act_recover_at - serverTime
+    
+        if ap_points > 0:
+            lost_ap_point = (ap_points + 299) // 300
+            if act_max >= lost_ap_point:
+                remaining_ap = act_max - lost_ap_point
+            else:
+                main.logger.info("失去的AP点超过了当前actMax值-计算失败")
+        
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
         add_fp = data['response'][0]['success']['addFriendPoint']
@@ -245,9 +258,12 @@ class user:
         login = Login(
             self.name_,
             login_days,
+            name1,
+            fpids1,
             total_days,
             act_max, act_recover_at,
             now_act,
+            remaining_ap,
             add_fp,
             total_fp
         )
