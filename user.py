@@ -250,7 +250,8 @@ class user:
         if ap_points > 0:
             lost_ap_point = (ap_points + 299) // 300
             if act_max >= lost_ap_point:
-                remaining_ap = act_max - lost_ap_point
+                remaining_ap_int = act_max - lost_ap_point
+                remaining_ap = int(remaining_ap_int)
             else:
                 main.logger.info("失去的AP点超过了当前actMax值-计算失败")
         
