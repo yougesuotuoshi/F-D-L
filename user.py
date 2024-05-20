@@ -104,7 +104,7 @@ class Rewards:
 
 
 class Login:
-    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
+    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp, name1, fpids1, remaining_ap):
         self.name = name
         self.login_days = login_days
         self.total_days = total_days
@@ -113,6 +113,10 @@ class Login:
         self.now_act = now_act
         self.add_fp = add_fp
         self.total_fp = total_fp
+        self.name1 = name1
+        self.fpids1 = fpids1
+        self.remaining_ap = remaining_ap
+
 
 
 class Bonus:
