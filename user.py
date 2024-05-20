@@ -501,7 +501,7 @@ class user:
                                main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} 购买成功\n========================================")
                                webhook.shop(purchaseName, purchaseNum)
                else:
-                   main.logger.info(" 青銅の苗木が足りないヽ (*。>Д<)o゜ ")
+                   main.logger.info(f"\n ======================================== \n ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n ======================================== " )
     
 
     def drawFP(self):
