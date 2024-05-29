@@ -20,11 +20,12 @@ import time
 import requests
 import shutil
 
-
-
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
 from urllib.parse import quote_plus
 from libs.GetSubGachaId import GetGachaSubIdFP
-from fake_useragent import UserAgent
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
@@ -142,24 +143,33 @@ class user:
 
     def topLogin_s(self):
         DataWebhook = []  
-        
-        idk = self.builder_.get_idempotency_key()
-        idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
         device_info = os.environ.get('DEVICE_INFO_SECRET')
-        ua = UserAgent()
-        headers = {
-            'User-Agent': ua.random
-        }
-        url = f'{idempotency_key_signature}userId={self.user_id_}&idempotencyKey={idk}'
-        result = requests.get(url, headers=headers, verify=False).text
+        
+        with open('private_key.pem', 'rb') as f:
+            loaded_private_key = serialization.load_pem_private_key(
+                f.read(), password=None, backend=default_backend())
+            
+        def sign(uuid):
+            signature = loaded_private_key.sign(
+                bytes(uuid, 'utf-8'),
+                padding.PKCS1v15(),
+                hashes.SHA256()
+            )
+            return base64.b64encode(signature).decode('utf-8')
+            
+        userid = self.user_id_
+        idk = self.builder_.get_idempotency_key()
+        input_string = f"{userid}{idk}"
+        idempotencyKeySignature = sign(input_string)
         
         lastAccessTime = self.builder_.parameter_list_[5][1]
+        
         userState = (-int(lastAccessTime) >>
                      2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('idempotencyKeySignature', result)
+        self.builder_.AddParameter('idempotencyKeySignature', idempotencyKeySignature)
         self.builder_.AddParameter('deviceInfo', device_info)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
