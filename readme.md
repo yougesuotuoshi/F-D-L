@@ -78,7 +78,6 @@ adb shell cp /storage/emulated/0/Android/data/com.aniplex.fategrandorder/files/d
 | GAME_USERIDS | 1234,1235 |
 | GAME_REGION | JP |
 | USER_AGENT_SECRET_2 | Dalvik/2.1.0 (Linux; U; Android 14; Pixel 5 Build/UP1A.231105.001) 建议不要照抄 |
-| IDEMPOTENCY_KEY_SIGNATURE_SECRET |  https://fgo.xiaoheimao.workers.dev/getSignature?    https://worker.chaldea.center/api/v4/tool/sign-data  选择一个|
 | DEVICE_INFO_SECRET | Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346) 建议不要照抄 |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
 
