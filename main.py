@@ -12,7 +12,6 @@ authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
-idempotency_key_signature = os.environ.get('IDEMPOTENCY_KEY_SIGNATURE_SECRET')
 device_info = os.environ.get('DEVICE_INFO_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 
