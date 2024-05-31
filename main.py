@@ -49,6 +49,8 @@ def main():
                 instance.lq002()
                 time.sleep(2)
                 instance.buyBlueApple()
+                time.sleep(0.7)
+                instance.lq003()
                 time.sleep(1)
                 instance.drawFP()
 
