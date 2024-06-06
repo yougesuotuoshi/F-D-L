@@ -378,28 +378,21 @@ class user:
 
 
     def drawFP(self):
+        gachaSubId = GetGachaSubIdFP("JP")
+
+        if gachaSubId is None:
+               gachaSubId = "0"
+            
         self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
+        self.builder_.AddParameter('gachaSubId', gachaSubId)
 
-        if main.fate_region == "NA":
-            gachaSubId = GetGachaSubIdFP("NA")
-            if gachaSubId is None:
-                gachaSubId = "0" 
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"\n ======================================== \n [+] 召唤卡池GachaSubId ： {gachaSubId} \n ======================================== " )
-        else:
-            gachaSubId = GetGachaSubIdFP("JP")
-            if gachaSubId is None:
-                gachaSubId = "0" 
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"\n ======================================== \n [+] 召唤卡池GachaSubId ： {gachaSubId} \n ======================================== " )
-
-        data = self.Post(
-            f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
-
+        main.logger.info(f"\n ======================================== \n [+] 友情卡池ID : {gachaSubId}\n ======================================== " )
+        data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
         servantArray = []
@@ -435,7 +428,7 @@ class user:
 
 
     def lq001(self):
-         # https://game.fate-go.jp/present/list?_userId=
+         # https://game.fate-go.jp/present/list?
           
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
@@ -455,18 +448,14 @@ class user:
 
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
-
-        main.logger.info(f"\n ======================================== \n [+] 礼物盒内容解析完成 \n ======================================== " )
-
+            
         time.sleep(1)
 
         if os.path.exists('JJM.json'):
             with open('JJM.json', 'r', encoding='utf-8') as file:
-                data1 = json.load(file)
+                datas = json.load(file)
 
-            data = data1
-
-            msgpack_data = msgpack.packb(data)
+            msgpack_data = msgpack.packb(datas)
 
             base64_encoded_data = base64.b64encode(msgpack_data).decode()
 
@@ -480,8 +469,6 @@ class user:
             responses = data['response']
 
             main.logger.info(f"\n ======================================== \n [+] 领取成功 \n ======================================== " )
-        else:
-            main.logger.info(f"\n ======================================== \n [+] 没有物品可领取 \n ======================================== " )
 
     def lq003(self):
         # https://game.fate-go.jp/shop/purchase?
@@ -522,7 +509,7 @@ class user:
                     mana = gdata['cache']['replaced']['userGame'][0]['mana']
                     mana_s = mana // 20
                     if mana_s == 0:
-                       main.logger.info(f"\n ======================================== \n 魔力方块不足(´･ω･`) \n ======================================== ")
+                       main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                     else:
                         if num_ok > mana_s:
                            num = mana_s
@@ -543,7 +530,7 @@ class user:
                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
                 mana_s = mana // 20
                 if mana_s == 0:
-                   main.logger.info(f"\n ======================================== \n 魔力方块不足(´･ω･`) \n ======================================== ")
+                   main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                 else:
                     if num_ok > mana_s:
                        num = mana_s
