@@ -56,8 +56,9 @@ adb shell cp /storage/emulated/0/Android/data/com.aniplex.fategrandorder/files/d
 
 
 # 4. 创建 Discord 消息通知机器人
-要创建 webhook Discord，您需要在 Discord 中创建一个服务器 并在该频道的 设置中 创建一个 文本频道
+要创建 Webhook Discord，您需要在 Discord 中创建一个服务器 并在该频道的 设置中 创建一个 文本频道
 `integration > webhook > create webhook > copy url webhook`
+复制获得的 Webhook URL 填写到 DISCORD_WEBHOOK 
 
 
 # 5. 填写 Github Secrets
@@ -76,7 +77,6 @@ adb shell cp /storage/emulated/0/Android/data/com.aniplex.fategrandorder/files/d
 | GAME_AUTHKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_SECRETKEYS | RaNdOmStRiNg1234:randomAAAAA=,RaNdOmStRiNg1235:randomAAAAA= |
 | GAME_USERIDS | 1234,1235 |
-| GAME_REGION | JP |
 | USER_AGENT_SECRET_2 | Dalvik/2.1.0 (Linux; U; Android 14; Pixel 5 Build/UP1A.231105.001) 建议不要照抄 |
 | DEVICE_INFO_SECRET | Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346) 建议不要照抄 |
 | DISCORD_WEBHOOK | https://discord.com/api/webhooks/randomNumber/randomString |
