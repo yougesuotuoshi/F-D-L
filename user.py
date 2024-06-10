@@ -437,7 +437,7 @@ class user:
         main.logger.info(f"\n ======================================== \n [+] 读取礼物盒 \n ======================================== " )
 
     def lq002(self):
-         # https://game.fate-go.jp/present/receive?_userId=
+         # https://game.fate-go.jp/present/receive?
         with open('login.json', 'r', encoding='utf-8')as f:
             data = json.load(f)
 
@@ -555,7 +555,6 @@ class user:
         if max_base_shop_s_id is not None:
             shopId = max_base_shop_s_id
 
-
             for item in fdata:
                 if item.get('baseShopId') == max_base_shop_s_id:
                     closedAt = item.get('closedAt')
@@ -587,7 +586,7 @@ class user:
                                    return
                                else:
                                     if mana_s == 0:
-                                       main.logger.info(f"\n ======================================== \n 魔力方块不足(´･ω･`) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                                     else:
                                         if num_ok > mana_s:
                                            num = mana_s
@@ -606,7 +605,7 @@ class user:
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
                                  mana_s = mana // 20
                                  if mana_s == 0:
-                                    main.logger.info(f"\n ======================================== \n 魔力方块不足(´･ω･`) \n ======================================== ")
+                                    main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                                     return
                                  else:
                                      if num_ok > mana_s:
