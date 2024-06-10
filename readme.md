@@ -56,9 +56,9 @@ adb shell cp /storage/emulated/0/Android/data/com.aniplex.fategrandorder/files/d
 
 
 # 4. 创建 Discord 消息通知机器人
-要创建 Webhook Discord，您需要在 Discord 中创建一个服务器 并在该频道的 设置中 创建一个 文本频道
-`integration > webhook > create webhook > copy url webhook`
-复制获得的 Webhook URL 填写到 DISCORD_WEBHOOK 
+- 要创建 Webhook Discord，您需要在 Discord 中创建一个服务器 并在该频道的 设置中 创建一个 文本频道
+- `integration > webhook > create webhook > copy url webhook`
+- 复制获得的 Webhook URL 填写到 DISCORD_WEBHOOK 
 
 
 # 5. 填写 Github Secrets
