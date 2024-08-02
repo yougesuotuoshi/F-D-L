@@ -28,7 +28,13 @@ def get_latest_verCode():
     response_data = json.loads(response)
 
     return response_data['verCode']
+    
+def get_latest_appver():
+    endpoint = "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
+    response = requests.get(endpoint).text
+    response_data = json.loads(response)
 
+    return response_data['appVer']
 
 
 def main():
