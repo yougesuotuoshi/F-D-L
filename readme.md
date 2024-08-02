@@ -1,3 +1,8 @@
+> [!警告]
+> 即日起 次项目停止维护
+> 由于一些软骨头国人向运营报告这个项目，成功的引起了运营的注意，并在 游戏版本 2.95.0 开始 对APK进行CA证书捆绑验证，如果继续使用此项目可能导致BAN！
+
+
 # FGO每日自动登录
 
 <img width="33%" style="border: 1px solid black" src="https://i.imgur.com/azBO1qu.png">
