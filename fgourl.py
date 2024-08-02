@@ -2,6 +2,7 @@ import json
 import binascii
 import requests
 import main
+import version
 import CatAndMouseGame
 import os
 
