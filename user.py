@@ -471,8 +471,8 @@ class user:
             main.logger.info(f"\n ======================================== \n [+] 领取成功 \n ======================================== " )
 
     def lq003(self):
-        # https://game.fate-go.jp/shop/purchase?
-
+        # https://game.fate-go.jp/shop/purchase
+        
         url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstShop.json'
         response = requests.get(url)
 
@@ -486,8 +486,13 @@ class user:
         for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 4096:
                 base_shop_id = item.get('baseShopId')
+                base_lim_it_Num = item.get('limitNum')
+                base_prices = item.get('prices')[0]
+                
                 if max_base_shop_id is None or base_shop_id > max_base_shop_id:
                     max_base_shop_id = base_shop_id
+                    max_base_lim_it_Num = base_lim_it_Num
+                    max_base_prices = base_prices
 
         if max_base_shop_id is not None:
             shopId = max_base_shop_id
@@ -504,12 +509,12 @@ class user:
 
             if num_value is not None:
                 shopId = max_base_shop_id
-                num_ok = 5 - num_value
+                num_ok = max_base_lim_it_Num - num_value
                 if num_ok == 0:
                    main.logger.info(f"\n ======================================== \n 每月呼符 你已经兑换过了(´･ω･`) \n ======================================== ")
                 else:
                     mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                    mana_s = mana // 20
+                    mana_s = mana // max_base_prices
                     if mana_s == 0:
                        main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                     else:
@@ -528,9 +533,9 @@ class user:
                         if num is not None:
                            main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （每月）\n ======================================== ")       
             else:
-                num_ok = 5
+                num_ok = max_base_lim_it_Num
                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                mana_s = mana // 20
+                mana_s = mana // max_base_prices
                 if mana_s == 0:
                    main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                 else:
@@ -553,14 +558,11 @@ class user:
                 base_shop_s_id = item.get('baseShopId')
                 base_lim_it_Num = item.get('limitNum')
                 base_prices = item.get('prices')[0]
-
                 
                 if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
                     max_base_shop_s_id = base_shop_s_id
                     max_base_lim_it_Num = base_lim_it_Num
                     max_base_prices = base_prices
-                    main.logger.info(f" {max_base_lim_it_Num} ")
-                    main.logger.info(f" {max_base_prices} ")
 
         if max_base_shop_s_id is not None:
             shopId = max_base_shop_s_id
@@ -582,7 +584,6 @@ class user:
 
                             mana = gdata['cache']['replaced']['userGame'][0]['mana']
                             mana_s = mana // max_base_prices
-                            main.logger.info(f" {mana_s} ")
                             num_value = None
 
                             for item in gdata.get('cache', {}).get('updated', {}).get('userShop', []):
