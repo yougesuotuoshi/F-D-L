@@ -552,8 +552,8 @@ class user:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 2048:
                 base_shop_s_id = item.get('baseShopId')
                 base_lim_it_Num = item.get('limitNum')
-                base_prices = item.get('prices')
-                
+                base_prices = item.get('prices')[0]
+
                 
                 if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
                     max_base_shop_s_id = base_shop_s_id
