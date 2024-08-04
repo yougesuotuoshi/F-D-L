@@ -561,7 +561,7 @@ class user:
                 base_shop_s_id = item.get('baseShopId')
                 base_lim_it_s_Num = item.get('limitNum')
                 base_prices_s = item.get('prices')[0]
-                base_name_s = item.get('name')
+                base_name_s = item.get('detail')
                 match = re.search(r'【(.*?)】', base_name_s)
                 base_name_ss = match.group(1)
                 
