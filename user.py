@@ -483,7 +483,6 @@ class user:
         max_base_lim_it_s_Num = None 
         max_base_prices = None
         max_base_prices_s = None
-        max_base_name = '每月'
         max_base_name_s = '活动'
         num = None
 
@@ -563,12 +562,14 @@ class user:
                 base_lim_it_s_Num = item.get('limitNum')
                 base_prices_s = item.get('prices')[0]
                 base_name_s = item.get('name')
+                match = re.search(r'【(.*?)】', base_name_s)
+                base_name_ss = match.group(1)
                 
                 if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
                     max_base_shop_s_id = base_shop_s_id
                     max_base_lim_it_s_Num = base_lim_it_s_Num
                     max_base_prices_s = base_prices_s
-                    max_base_name_s = base_name_s
+                    max_base_name_s = base_name_ss
 
         if max_base_shop_s_id is not None:
             shopId = max_base_shop_s_id
