@@ -378,10 +378,10 @@ class user:
 
 
     def drawFP(self):
-        gachaSubId = GetGachaSubIdFP("JP")
+        gachaSubId = GetGachaSubIdFP()
 
         if gachaSubId is None:
-            gachaSubId = "0"
+           gachaSubId_mo = 0
             
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
