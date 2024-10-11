@@ -381,7 +381,7 @@ class user:
         gachaSubId = GetGachaSubIdFP()
 
         if gachaSubId is None:
-           gachaSubId_mo = 0
+           gachaSubId = 0
             
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
