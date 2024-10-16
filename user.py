@@ -386,10 +386,12 @@ class user:
         nowAt = mytime.GetTimeStamp()
         closedAt = 1730865599
 
+        main.logger.info(f"当前时间：{nowAt}")
+        
         if nowAt > closedAt:
-            main.logger.info(f"期間限定召喚已结束")
+            main.logger.info(f"期間限定召喚已结束，当前时间：{nowAt}")
             return
-    
+
         with open('login.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
@@ -399,11 +401,11 @@ class user:
 
         for svt in user_svt_list:
             svtId = svt.get('svtId')
-            if svtId in [2300800, 2300700]:  
+            if svtId in [2300800, 2300700]:  #岸波白野的SvtID
                 found_svt = True 
                 
-                gachaId = 3
-                gachaSubId = 417
+                gachaId = 3  #这个限定卡池有两个ID【 2 / 3 】懒得写判定，如果报错就用2
+                gachaSubId = 417  #这个限定卡池有两个ID【 416 / 417 】懒得写判定，如果报错就用416
 
                 self.builder_.AddParameter('storyAdjustIds', '[]')
                 self.builder_.AddParameter('selectBonusList', '')
@@ -413,7 +415,7 @@ class user:
                 self.builder_.AddParameter('shopIdIndex', '1')
                 self.builder_.AddParameter('gachaSubId', str(gachaSubId))
                 
-                main.logger.info(f" [+] 期間限定召喚 GachaID{gachaId} SubId{gachaSubId}")
+                main.logger.info(f" \n [+] 期間限定召喚 GachaId：{gachaId} SubId：{gachaSubId}")
                 data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
                 
                 responses = data['response']
@@ -447,10 +449,11 @@ class user:
                 webhook.LTO_Gacha(servantArray, missionArray)
 
         if not found_svt:
-            main.logger.info(f"不满足活动条件..不能参加限定召唤")
+            main.logger.info(f" \n 不满足活动条件..不能参加限定召唤")
             return 
 
     def drawFP(self):
+        #SubID判定有点不准了.偶尔错误抽卡失败...等哪天闲暇再修
         gachaSubId = GetGachaSubIdFP()
 
         if gachaSubId is None:
