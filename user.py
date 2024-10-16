@@ -386,10 +386,10 @@ class user:
         nowAt = mytime.GetTimeStamp()
         closedAt = 1730865599
 
-        main.logger.info(f"当前时间：{nowAt}")
+        #main.logger.info(f"当前时间：{nowAt}")
         
         if nowAt > closedAt:
-            main.logger.info(f"期間限定召喚已结束，当前时间：{nowAt}")
+            main.logger.info(f"期間限定召喚 已结束，当前时间：{nowAt}")
             return
 
         with open('login.json', 'r', encoding='utf-8') as file:
