@@ -400,21 +400,22 @@ class user:
         for svt in user_svt_list:
             svtId = svt.get('svtId')
             if svtId in [2300800, 2300700]:  
-                found_svt = True  
-                main.logger.info(f"进行期間限定召喚")
+                found_svt = True 
                 
+                gachaId = 3
                 gachaSubId = 417
 
                 self.builder_.AddParameter('storyAdjustIds', '[]')
                 self.builder_.AddParameter('selectBonusList', '')
-                self.builder_.AddParameter('gachaId', '1')
+                self.builder_.AddParameter('gachaId', str(gachaId))
                 self.builder_.AddParameter('num', '10')
                 self.builder_.AddParameter('ticketItemId', '0')
                 self.builder_.AddParameter('shopIdIndex', '1')
                 self.builder_.AddParameter('gachaSubId', str(gachaSubId))
-
+                
+                main.logger.info(f" [+] 期間限定召喚 GachaID{gachaId} SubId{gachaSubId}")
                 data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
-
+                
                 responses = data['response']
 
                 servantArray = []
@@ -453,8 +454,7 @@ class user:
         gachaSubId = GetGachaSubIdFP()
 
         if gachaSubId is None:
-            gachaSubId = 0
-           #gachaSubId_mo = 417
+           gachaSubId = 0
             
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
@@ -462,7 +462,7 @@ class user:
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
-        self.builder_.AddParameter('gachaSubId', str(gachaSubId))
+        self.builder_.AddParameter('gachaSubId', gachaSubId)
 
         main.logger.info(f"\n {'=' * 40} \n [+] 友情卡池ID : {gachaSubId}\n {'=' * 40} " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
