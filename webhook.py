@@ -247,9 +247,9 @@ def LTO_Gacha(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO自动抽卡系统 - " + main.fate_region,
+                "title": "FGO限定抽卡 - " + main.fate_region,
                 "description": f"完成限定友情抽卡。列出抽卡结果.\n\n{message_mission}",
-                "color": 5750876,
+                "color": 16711680,
                 "fields": [
                     {
                         "name": "限定卡池",
