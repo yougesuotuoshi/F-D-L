@@ -401,6 +401,8 @@ class user:
             svtId = svt.get('svtId')
             if svtId in [2300800, 2300700]:  
                 found_svt = True  
+                main.logger.info(f"进行期間限定召喚")
+                
                 gachaSubId = 417
 
                 self.builder_.AddParameter('storyAdjustIds', '[]')
