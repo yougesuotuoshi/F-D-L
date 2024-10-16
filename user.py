@@ -409,7 +409,7 @@ class user:
                 self.builder_.AddParameter('num', '10')
                 self.builder_.AddParameter('ticketItemId', '0')
                 self.builder_.AddParameter('shopIdIndex', '1')
-                self.builder_.AddParameter('gachaSubId', str(gachaSubId))
+                self.builder_.AddParameter('gachaSubId', gachaSubId)
 
                 data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
 
@@ -451,7 +451,7 @@ class user:
         gachaSubId = GetGachaSubIdFP()
 
         if gachaSubId is None:
-           gachaSubId_mo = 0
+            gachaSubId = 0
            #gachaSubId_mo = 417
             
         self.builder_.AddParameter('storyAdjustIds', '[]')
