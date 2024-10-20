@@ -724,7 +724,7 @@ class user:
                         main.logger.info(f"时间服务器连接失败")
 
 
-    def Exchange_ticket(self):
+    def Exticket():
         
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
@@ -800,11 +800,11 @@ class user:
     
     def Present(self):
         
-        base64_encoded_data = Exchange_ticket()[1]
-        idxs = Exchange_ticket()[2]
-        object_id_count = Exchange_ticket()[3]
-        name = Exchange_ticket()[4]
-        namegift = Exchange_ticket()[5]
+        base64_encoded_data = Exticket()[1]
+        idxs = Exticket()[2]
+        object_id_count = Exticket()[3]
+        name = Exticket()[4]
+        namegift = Exticket()[5]
         
         self.builder_.AddParameter('presentIds', base64_encoded_data)
         self.builder_.AddParameter('itemSelectIdx', idxs)
