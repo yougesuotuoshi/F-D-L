@@ -805,6 +805,7 @@ class user:
         object_id_count = Exticket()[3]
         name = Exticket()[4]
         namegift = Exticket()[5]
+        main.logger.info(f"{base64_encoded_data}")
         
         self.builder_.AddParameter('presentIds', base64_encoded_data)
         self.builder_.AddParameter('itemSelectIdx', idxs)
