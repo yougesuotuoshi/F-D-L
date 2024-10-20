@@ -800,8 +800,8 @@ class user:
                        present = deck.read().strip()
                        
                    self.builder_.AddParameter('presentIds', present)
-                   self.builder_.AddParameter('itemSelectIdx', srt(idxs))
-                   self.builder_.AddParameter('itemSelectNum', srt(object_id_count))
+                   self.builder_.AddParameter('itemSelectIdx', str(idxs))
+                   self.builder_.AddParameter('itemSelectNum', str(object_id_count))
 
                    data = self.Post(
                        f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
