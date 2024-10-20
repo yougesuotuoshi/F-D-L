@@ -289,7 +289,7 @@ def Present(name, namegift, object_id_count) -> None:
             {
                 "title": "FGO兑换系统 - JP",
                 "description": "兑换成功",
-                "color": 5814783,
+                "color": 8388736,
                 "fields": [
                     {
                         "name": f"{name}",
