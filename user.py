@@ -725,7 +725,6 @@ class user:
 
 
     def Exticket(self):
-        main.logger.info(f"321")
         
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
@@ -793,33 +792,23 @@ class user:
                    msgpack_data = msgpack.packb(Pdata)
 
                    base64_encoded_data = base64.b64encode(msgpack_data).decode()
- 
-           return first_object_id, base64_encoded_data, idxs, object_id_count, name, namegift, 
+
+                   self.builder_.AddParameter('presentIds', base64_encoded_data)
+                   self.builder_.AddParameter('itemSelectIdx', idxs)
+                   self.builder_.AddParameter('itemSelectNum', object_id_count)
+
+                   data = self.Post(
+                       f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
+    
+                   responses = data['response']
+
+                   main.logger.info(f"\n {'=' * 40} \n [+] {name} 兑换成功 \n {'=' * 40} " )
+        
+                   webhook.Present(name, namegift, object_id_count)
+                   
         else:
             main.logger.info(" 礼物盒中交換券なし(´･ω･`) ")
     
-    
-    def Present(self):
-        
-        base64_encoded_data = self.Exticket()[1]
-        idxs = self.Exticket()[2]
-        object_id_count = self.Exticket()[3]
-        name = self.Exticket()[4]
-        namegift = self.Exticket()[5]
-        
-        self.builder_.AddParameter('presentIds', base64_encoded_data)
-        self.builder_.AddParameter('itemSelectIdx', idxs)
-        self.builder_.AddParameter('itemSelectNum', object_id_count)
-
-        data = self.Post(
-            f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
-    
-        responses = data['response']
-
-        main.logger.info(f"\n {'=' * 40} \n [+] {name} 兑换成功 \n {'=' * 40} " )
-        
-        webhook.Present(name, namegift, object_id_count)
-        
         
 
 
