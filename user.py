@@ -761,11 +761,11 @@ class user:
         result = ', '.join(object_ids)
         result2 = ', '.join(presentIds)
 
-        Pdata = f"[{result2}]".encode('utf-8')
+        Pdata = f"[{result2}]"
 
         msgpack_data = msgpack.packb(Pdata)
 
-        base64_encoded_data = base64.b64encode(msgpack_data).decode('utf-8')
+        base64_encoded_data = base64.b64encode(msgpack_data).decode()
                    
         with open("upresent.txt", "wb", encoding='utf-8') as f1:
             f1.write(base64_encoded_data)
