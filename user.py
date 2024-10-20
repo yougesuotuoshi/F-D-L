@@ -510,6 +510,10 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
+        
+        with open('present.json', 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+            
         main.logger.info(f"\n {'=' * 40} \n [+] 读取礼物盒 \n {'=' * 40} " )
 
     def lq002(self):
@@ -720,7 +724,97 @@ class user:
                         main.logger.info(f"时间服务器连接失败")
 
 
+    def Exchange_ticket():
 
+        with open('present.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            
+        user_present_box = data.get('cache', {}).get('replaced', {}).get('userPresentBox', [])
+    
+        first_object_id = None
+        object_id_count = 0
+        object_ids = []
+        presentIds = []
+
+        for item in user_present_box:
+            if item.get('messageId') == 21:
+                object_id = item.get('objectId')
+                presentId = item.get('presentId')
+    
+                if object_id and 10000 <= object_id <= 20000:
+
+                    if first_object_id is None:
+                        first_object_id = object_id
+                        
+                    if object_id == first_object_id:
+                        object_id_count += 1
+                        object_ids.append(str(object_id))
+                        presentIds.append(str(presentId))
+                    else:
+                        continue
+    
+        result = ', '.join(object_ids)
+        result2 = ', '.join(presentIds)
+    
+        if first_object_id is not None:
+           
+           with open('nice_item_raw.json', 'r', encoding='utf-8') as file:
+               itemdata = json.load(file)
+    
+           item_data = next((item for item in itemdata if item.get('id') == first_object_id), None)
+    
+           if item_data:
+               name = item_data.get('name', 'None')
+               item_selects = item_data.get('itemSelects', [])
+            
+               max_idx = None
+    
+               if item_selects:
+                   random_item = random.choice(item_selects)
+                   idxs = random_item.get('idx')
+                   gifts = random_item.get('gifts', [])
+                
+                   for gift in gifts:
+                       object_id = gift.get('objectId')
+                       
+                   max_idx = max(item_select.get('idx') for item_select in item_selects)
+    
+                   item_name = next((item for item in itemdata if item.get('id') == object_id), None)
+                   namegift = item_name.get('originalName', 'None')
+
+                   Pdata = (f"[{result2}]")
+
+                   msgpack_data = msgpack.packb(Pdata)
+
+                   base64_encoded_data = base64.b64encode(msgpack_data).decode()
+ 
+           return first_object_id, base64_encoded_data, idxs, object_id_count, name, namegift, 
+        else:
+            main.logger.info(" 礼物盒中交換券なし(´･ω･`) ")
+    
+    
+    def Present(self):
+        
+        base64_encoded_data = Exchange_ticket()[1]
+        idxs = Exchange_ticket()[2]
+        object_id_count = Exchange_ticket()[3]
+        name = Exchange_ticket()[4]
+        namegift = Exchange_ticket()[5]
+        
+        self.builder_.AddParameter('presentIds', base64_encoded_data)
+        self.builder_.AddParameter('itemSelectIdx', idxs)
+        self.builder_.AddParameter('itemSelectNum', object_id_count)
+
+        data = self.Post(
+            f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
+    
+        responses = data['response']
+
+        main.logger.info(f"\n {'=' * 40} \n [+] {name} 兑换成功 \n {'=' * 40} " )
+        
+        webhook.Present(name, namegift, object_id_count)
+        
+        
 
 
 
