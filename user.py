@@ -725,6 +725,7 @@ class user:
 
 
     def Exticket(self):
+        main.logger.info(f"321")
         
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
@@ -799,6 +800,8 @@ class user:
     
     
     def Present(self):
+        
+        main.logger.info(f"123")
         
         base64_encoded_data = Exticket()[1]
         idxs = Exticket()[2]
