@@ -278,3 +278,42 @@ def LTO_Gacha(servants, missions) -> None:
     }
 
     requests.post(endpoint, json=jsonData, headers=headers)
+
+
+def Present(name, namegift, object_id_count) -> None:
+    endpoint = main.webhook_discord_url
+    
+    jsonData = {
+        "content": None,
+        "embeds": [
+            {
+                "title": "FGO兑换系统 - JP",
+                "description": "兑换成功",
+                "color": 5814783,
+                "fields": [
+                    {
+                        "name": f"{name}",
+                        "value": f"{namegift} x{object_id_count}",
+                        "inline": False
+                    }
+                ],
+                "thumbnail": {
+                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara06.png"
+                }
+            }
+        ],
+        "attachments": []
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    requests.post(endpoint, json=jsonData, headers=headers)
+
+
+
+
+
+
+
