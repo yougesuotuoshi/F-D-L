@@ -141,13 +141,29 @@ class user:
         self.builder_.Clean()
         return res
 
-    def topLogin_s(self):
+    def topLogin(self):
         DataWebhook = []  
         device_info = os.environ.get('DEVICE_INFO_SECRET')
         
-        with open('private_key.pem', 'rb') as f:
-            loaded_private_key = serialization.load_pem_private_key(
-                f.read(), password=None, backend=default_backend())
+        private_key_pem = """
+-----BEGIN RSA PRIVATE KEY-----
+MIICWAIBAAKBgLkG1MbGaKzsCnfEz/v5Pv0mSffavUujhNKjmAAUdlBuE6v+uxMH
+ezdep9kH1FZRZHtYRjN1M6oeqckKVMhK82DMkoRxjCjwyknnM6VKO8uMbI3jbZwE
+jEv7yyNjxNIF7jVq5ifJujc13uainCQw2Y2UyJD3pmSgZp7xkt9vM9lVAgMBAAEC
+gYAdGhn1edeU+ztaQzaDZ1yk7JTNyzXi48FMcDbELHO/itDFSLeb8p1KxDSaSkT3
+nq2zSNsh1NlfdJs358wWBNPqrSBOEQGrcwUqob59mLQysxddE8HKN0kN7ZfLiebp
+y1xHxTqV1VEBmTlon9sMyYa5wbjJ8teSBQnvXP5JCnw2sQJAytZc/rIxKSazx2is
+os89qJFkzIEK4QhopCvSiDWarsYRi79KIxizrL0PCK0qAu6OXFsy5F2Ei+YXw++I
+Hhgx2wJA6YVwCKnGybW5hDKy7+XdFPpy0mhLxcGMWo9LQKCCSTKXqj6IOH3HOvnc
+iXN7NUf/TwN6mFzrsBHzyKrXJhAAjwJAnNIhMfW41nUKt9hw6KtLo4FNqmL2c0da
+B9utuQugnRGbzSzG992IRLwi3HVtLrkbrcIA1diLutHZe+48ke/o0wJANVdPogr1
+53llKPdTvEyrVXFn7Pv54vA1GTKGI/sGB6ZQ0oh6IT1J1wTgBV2llSQfA3Nt+4Ou
+KofPQdUUVBNvrQJAeFeVPpvWJTiMWCN2NMmJXqqdva8J1XIT047x5fdg72LcPOU+
+xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
+-----END RSA PRIVATE KEY-----
+        """
+        loaded_private_key = serialization.load_pem_private_key(
+            private_key_pem.encode('utf-8'), password=None, backend=default_backend())
             
         def sign(uuid):
             signature = loaded_private_key.sign(
@@ -344,7 +360,7 @@ class user:
             if bluebronzesapling > 0:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
-                    main.logger.info(f"\n {'=' * 40} \n APが40未満の場合は購入できません (´･ω･`)? \n {'=' * 40} ")
+                    main.logger.info(f"\n {'=' * 40} \n [+] APが40未満の場合は購入できません (´･ω･`)? \n {'=' * 40} ")
                     return
                 
                 if bluebronzesapling < quantity:
@@ -371,10 +387,10 @@ class user:
                             purchaseName = resSuccess['purchaseName']
                             purchaseNum = resSuccess['purchaseNum']
 
-                            main.logger.info(f"\n{'=' * 40}\n[+] {purchaseNum}x {purchaseName} 购买成功\n{'=' * 40}")
+                            main.logger.info(f"\n{'=' * 40}\n[+] {purchaseName} x{purchaseNum}购买成功\n{'=' * 40}")
                             webhook.shop(purchaseName, purchaseNum)
             else:
-                main.logger.info(f"\n {'=' * 40} \n ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n {'=' * 40} " )
+                main.logger.info(f"\n {'=' * 40} \n [+] ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n {'=' * 40} " )
 
 
 
@@ -385,11 +401,9 @@ class user:
 
         nowAt = mytime.GetTimeStamp()
         closedAt = 1730865599
-
-        #main.logger.info(f"当前时间：{nowAt}")
         
         if nowAt > closedAt:
-            main.logger.info(f"期間限定召喚 已结束，当前时间：{nowAt}")
+            main.logger.info(f"\n {'=' * 40} \n [+] 期間限定召喚 已结束，当前时间：{nowAt} \n {'=' * 40} ")
             return
 
         with open('login.json', 'r', encoding='utf-8') as file:
@@ -415,7 +429,7 @@ class user:
                 self.builder_.AddParameter('shopIdIndex', '1')
                 self.builder_.AddParameter('gachaSubId', str(gachaSubId))
                 
-                main.logger.info(f" \n [+] 期間限定召喚 GachaId：{gachaId} SubId：{gachaSubId}")
+                #main.logger.info(f" \n [+] 期間限定召喚 GachaId：{gachaId} SubId：{gachaSubId}")
                 data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
                 
                 responses = data['response']
@@ -449,7 +463,7 @@ class user:
                 webhook.LTO_Gacha(servantArray, missionArray)
 
         if not found_svt:
-            main.logger.info(f" \n 不满足活动条件..不能参加限定召唤")
+            main.logger.info(f"\n {'=' * 40} \n [+] 不满足活动条件..不能参加限定召唤 \n {'=' * 40} ")
             return 
 
     def drawFP(self):
@@ -467,7 +481,7 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
         self.builder_.AddParameter('gachaSubId', gachaSubId)
 
-        main.logger.info(f"\n {'=' * 40} \n [+] 友情卡池ID : {gachaSubId}\n {'=' * 40} " )
+        #main.logger.info(f"\n {'=' * 40} \n [+] 友情卡池ID : {gachaSubId}\n {'=' * 40} " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
@@ -514,7 +528,7 @@ class user:
         with open('present.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
             
-        main.logger.info(f"\n {'=' * 40} \n [+] 读取礼物盒 \n {'=' * 40} " )
+        main.logger.info(f"\n {'=' * 40} \n [+] 获得礼物盒数据 \n {'=' * 40} " )
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?
@@ -614,7 +628,11 @@ class user:
                 
                         responses = data['response'] 
                         if num is not None:
-                           main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月）\n {'=' * 40} ")       
+                           main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月）\n {'=' * 40} ")   
+                           namegift = "呼符（每月）"
+                           name = "呼符"
+                           object_id_count = num
+                           webhook.Present(name, namegift, object_id_count)
             else:
                 num_ok = max_base_lim_it_Num
                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
@@ -634,7 +652,12 @@ class user:
                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                     
                     if num is not None:
-                       main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月） \n {'=' * 40} ")
+                        main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月） \n {'=' * 40} ")
+                        namegift = "呼符（每月）"
+                        name = "呼符"
+                        object_id_count = num
+                        webhook.Present(name, namegift, object_id_count)
+                    
 
         for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 2048:
@@ -698,7 +721,11 @@ class user:
                                     data = self.Post(
                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                     if num is not None:
-                                       main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                        main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                        name = "呼符"
+                                        namegift = max_base_name_s
+                                        object_id_count = num
+                                        webhook.Present(name, namegift, object_id_count)
                             else:
                                  num_ok = max_base_lim_it_s_Num
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
@@ -719,9 +746,13 @@ class user:
                                      data = self.Post(
                                          f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                      if num is not None:
-                                        main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                         main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                         name = "呼符"
+                                         namegift = max_base_name_s
+                                         object_id_count = num
+                                         webhook.Present(name, namegift, object_id_count)
                     else:
-                        main.logger.info(f"时间服务器连接失败")
+                        main.logger.info(f"\n {'=' * 40} \n [+] 时间服务器连接失败 \n {'=' * 40}")
 
     
     def Present(self):
@@ -805,7 +836,7 @@ class user:
                    webhook.Present(name, namegift, object_id_count)
                    
         else:
-            main.logger.info(" 礼物盒中交換券なし(´･ω･`) ")
+            main.logger.info(f"\n {'=' * 40} \n [+] 礼物盒中交換券なし(´･ω･`) \n {'=' * 40} ")
 
 
 
