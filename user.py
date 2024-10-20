@@ -725,7 +725,7 @@ class user:
 
     
     def Present(self):
-        #兑换素材交換券
+        #素材交換券
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
             with open("nice_item.json", 'wb') as f:
@@ -734,17 +734,21 @@ class user:
         with open('present.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             
+        user_present_box = data.get('cache', {}).get('replaced', {}).get('userPresentBox', [])
+        
         first_object_id = None
         object_id_count = 0
         object_ids = []
         presentIds = []
 
-        for item in data['cache']['replaced']['userPresentBox']:
-            if item.get('giftType') == 2 and item.get('objectId') == 10086:
+        for item in user_present_box:
+            if item.get('giftType') == 2:
                 object_id = item.get('objectId')
                 presentId = item.get('presentId')
     
-                first_object_id = object_id
+                if object_id and 10000 <= object_id <= 20000:
+                    if first_object_id is None:
+                        first_object_id = object_id
                         
                 if object_id == first_object_id:
                     object_id_count += 1
@@ -755,8 +759,6 @@ class user:
 
                     with open('Ticket.json', 'w') as f:
                         json.dump(datajs, f, ensure_ascii=False)
-
-                    main.logger.info(datajs)
                 else:
                     continue
 
@@ -771,8 +773,6 @@ class user:
                name = item_data.get('name', 'None')
                item_selects = item_data.get('itemSelects', [])
             
-               max_idx = None
-    
                if item_selects:
                    random_item = random.choice(item_selects)
                    idxs = random_item.get('idx')
@@ -781,8 +781,6 @@ class user:
                    for gift in gifts:
                        object_id = gift.get('objectId')
                        
-                   max_idx = max(item_select.get('idx') for item_select in item_selects)
-    
                    item_name = next((item for item in itemdata if item.get('id') == object_id), None)
                    namegift = item_name.get('originalName', 'None')
 
@@ -808,7 +806,6 @@ class user:
                    
         else:
             main.logger.info(" 礼物盒中交換券なし(´･ω･`) ")
-
 
 
 
