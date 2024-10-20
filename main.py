@@ -43,24 +43,24 @@ def main():
         for i in range(userNums):
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
-                time.sleep(3)
-                logger.info(f"\n {'=' * 40} \n [+] 登录账号 \n {'=' * 40} " )
-
                 time.sleep(1)
+                logger.info(f"\n {'=' * 40} \n [+] 登录账号 \n {'=' * 40} " )
                 instance.topLogin_s()
                 time.sleep(2)
                 instance.topHome()
-                time.sleep(2)
+                time.sleep(0.5)
                 instance.lq001()
-                instance.lq002()
-                time.sleep(2)
-                instance.buyBlueApple()
-                time.sleep(1)
-                instance.lq003()
-                time.sleep(1)
-                instance.LTO_Gacha()
-                time.sleep(1)
-                instance.drawFP()
+                instance.Exchange_ticket()
+                instance.Present()
+                #instance.lq002()
+                #time.sleep(2)
+                #instance.buyBlueApple()
+                #time.sleep(1)
+                #instance.lq003()
+                #time.sleep(1)
+                #instance.LTO_Gacha()
+                #time.sleep(1)
+                #instance.drawFP()
 
 
             except Exception as ex:
