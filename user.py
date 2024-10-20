@@ -723,9 +723,9 @@ class user:
                     else:
                         main.logger.info(f"时间服务器连接失败")
 
-
+    
     def Present(self):
-        
+        #兑换素材交換券
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
             with open("nice_item.json", 'wb') as f:
@@ -734,42 +734,32 @@ class user:
         with open('present.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             
-        user_present_box = data.get('cache', {}).get('replaced', {}).get('userPresentBox', [])
-    
         first_object_id = None
         object_id_count = 0
         object_ids = []
         presentIds = []
 
-        for item in user_present_box:
-            if item.get('messageId') == 21:
+        for item in data['cache']['replaced']['userPresentBox']:
+            if item.get('giftType') == 2 and item.get('objectId') == 10086:
                 object_id = item.get('objectId')
                 presentId = item.get('presentId')
     
-                if object_id and 10000 <= object_id <= 20000:
-
-                    if first_object_id is None:
-                        first_object_id = object_id
+                first_object_id = object_id
                         
-                    if object_id == first_object_id:
-                        object_id_count += 1
-                        object_ids.append(str(object_id))
-                        presentIds.append(str(presentId))
-                    else:
-                        continue
-    
-        result = ', '.join(object_ids)
-        result2 = ', '.join(presentIds)
+                if object_id == first_object_id:
+                    object_id_count += 1
+                    object_ids.append(str(object_id))
+                    presentIds.append(str(presentId))
 
-        Pdata = (f"[{result2}]")
+                    datajs = [int(present_id) for present_id in presentIds]
 
-        msgpack_data = msgpack.packb(Pdata)
+                    with open('Ticket.json', 'w') as f:
+                        json.dump(datajs, f, ensure_ascii=False)
 
-        base64_encoded_data = base64.b64encode(msgpack_data).decode()
-                   
-        with open("upresent.txt", "w", encoding='utf-8') as f1:
-            f1.write(base64_encoded_data)
-    
+                    main.logger.info(datajs)
+                else:
+                    continue
+
         if first_object_id is not None:
            
            with open('nice_item.json', 'r', encoding='utf-8') as file:
@@ -796,16 +786,14 @@ class user:
                    item_name = next((item for item in itemdata if item.get('id') == object_id), None)
                    namegift = item_name.get('originalName', 'None')
 
-                   with open("upresent.txt", 'r', encoding='utf-8') as deck:
-                       presents = deck.read().strip()
+                   with open('Ticket.json', 'r', encoding='utf-8') as file:
+                       presentdata = json.load(file)
 
-                   main.logger.info(f"\n{presents} " )
-                   main.logger.info(f"{idxs} " )
-                   main.logger.info(f"{object_id_count} " )
+                   msgpack_data = msgpack.packb(presentdata)
 
-                   main.logger.info(f"{first_object_id} " )
+                   base64_encoded_data = base64.b64encode(msgpack_data).decode()
                    
-                   self.builder_.AddParameter('presentIds', presents)
+                   self.builder_.AddParameter('presentIds', base64_encoded_data)
                    self.builder_.AddParameter('itemSelectIdx', str(idxs))
                    self.builder_.AddParameter('itemSelectNum', str(object_id_count))
 
@@ -820,11 +808,6 @@ class user:
                    
         else:
             main.logger.info(" 礼物盒中交換券なし(´･ω･`) ")
-    
-        
-
-
-
 
 
 
