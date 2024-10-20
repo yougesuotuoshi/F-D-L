@@ -50,7 +50,7 @@ def main():
                 instance.topHome()
                 time.sleep(0.5)
                 instance.lq001()
-                instance.Exchange_ticket()
+                instance.Exticket()
                 instance.Present()
                 #instance.lq002()
                 #time.sleep(2)
