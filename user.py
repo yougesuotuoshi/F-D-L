@@ -801,14 +801,11 @@ class user:
     
     def Present(self):
         
-        main.logger.info(f"123")
-        
-        base64_encoded_data = Exticket()[1]
-        idxs = Exticket()[2]
-        object_id_count = Exticket()[3]
-        name = Exticket()[4]
-        namegift = Exticket()[5]
-        main.logger.info(f"{base64_encoded_data}")
+        base64_encoded_data = self.Exticket()[1]
+        idxs = self.Exticket()[2]
+        object_id_count = self.Exticket()[3]
+        name = self.Exticket()[4]
+        namegift = self.Exticket()[5]
         
         self.builder_.AddParameter('presentIds', base64_encoded_data)
         self.builder_.AddParameter('itemSelectIdx', idxs)
