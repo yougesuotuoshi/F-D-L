@@ -387,7 +387,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                             purchaseName = resSuccess['purchaseName']
                             purchaseNum = resSuccess['purchaseNum']
 
-                            main.logger.info(f"\n{'=' * 40}\n[+] {purchaseName} x{purchaseNum}购买成功\n{'=' * 40}")
+                            main.logger.info(f"\n{'=' * 40}\n[+] {purchaseName} x{purchaseNum} 购买成功\n{'=' * 40}")
                             webhook.shop(purchaseName, purchaseNum)
             else:
                 main.logger.info(f"\n {'=' * 40} \n [+] ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n {'=' * 40} " )
