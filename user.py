@@ -724,7 +724,7 @@ class user:
                         main.logger.info(f"时间服务器连接失败")
 
 
-    def Exticket(self):
+    def Present(self):
         
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
@@ -760,6 +760,15 @@ class user:
     
         result = ', '.join(object_ids)
         result2 = ', '.join(presentIds)
+
+        Pdata = (f"[{result2}]")
+
+        msgpack_data = msgpack.packb(Pdata)
+
+        base64_encoded_data = base64.b64encode(msgpack_data).decode()
+                   
+        with open("upresent.txt", "wb") as f1:
+            f1.write(base64_encoded_data)
     
         if first_object_id is not None:
            
@@ -787,13 +796,10 @@ class user:
                    item_name = next((item for item in itemdata if item.get('id') == object_id), None)
                    namegift = item_name.get('originalName', 'None')
 
-                   Pdata = (f"[{result2}]")
-
-                   msgpack_data = msgpack.packb(Pdata)
-
-                   base64_encoded_data = base64.b64encode(msgpack_data).decode()
-
-                   self.builder_.AddParameter('presentIds', base64_encoded_data)
+                   with open("upresent.txt", 'r', encoding='utf-8') as deck:
+                       present = deck.read().strip()
+                       
+                   self.builder_.AddParameter('presentIds', present)
                    self.builder_.AddParameter('itemSelectIdx', idxs)
                    self.builder_.AddParameter('itemSelectNum', object_id_count)
 
