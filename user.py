@@ -767,7 +767,7 @@ class user:
 
         base64_encoded_data = base64.b64encode(msgpack_data).decode('utf-8')
                    
-        with open("upresent.txt", "wb") as f1:
+        with open("upresent.txt", "wb", encoding='utf-8') as f1:
             f1.write(base64_encoded_data)
     
         if first_object_id is not None:
