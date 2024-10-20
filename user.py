@@ -724,7 +724,7 @@ class user:
                         main.logger.info(f"时间服务器连接失败")
 
 
-    def Exchange_ticket():
+    def Exchange_ticket(self):
         
         response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
         if response.status_code == 200:
