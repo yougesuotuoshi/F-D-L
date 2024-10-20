@@ -725,7 +725,12 @@ class user:
 
 
     def Exchange_ticket():
-
+        
+        response = requests.get("https://api.atlasacademy.io/export/JP/nice_item.json")
+        if response.status_code == 200:
+            with open("nice_item.json", 'wb') as f:
+                f.write(response.content)
+                
         with open('present.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
             
@@ -758,7 +763,7 @@ class user:
     
         if first_object_id is not None:
            
-           with open('nice_item_raw.json', 'r', encoding='utf-8') as file:
+           with open('nice_item.json', 'r', encoding='utf-8') as file:
                itemdata = json.load(file)
     
            item_data = next((item for item in itemdata if item.get('id') == first_object_id), None)
