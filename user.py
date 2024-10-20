@@ -761,7 +761,7 @@ class user:
         result = ', '.join(object_ids)
         result2 = ', '.join(presentIds)
 
-        Pdata = f"[{result2}]"
+        Pdata = (f"[{result2}]")
 
         msgpack_data = msgpack.packb(Pdata)
 
@@ -797,9 +797,15 @@ class user:
                    namegift = item_name.get('originalName', 'None')
 
                    with open("upresent.txt", 'r', encoding='utf-8') as deck:
-                       present = deck.read().strip()
-                       
-                   self.builder_.AddParameter('presentIds', present)
+                       presents = deck.read().strip()
+
+                   main.logger.info(f"\n{presents} " )
+                   main.logger.info(f"{idxs} " )
+                   main.logger.info(f"{object_id_count} " )
+
+                   main.logger.info(f"{first_object_id} " )
+                   
+                   self.builder_.AddParameter('presentIds', presents)
                    self.builder_.AddParameter('itemSelectIdx', str(idxs))
                    self.builder_.AddParameter('itemSelectNum', str(object_id_count))
 
