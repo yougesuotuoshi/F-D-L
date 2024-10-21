@@ -453,6 +453,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                             )
 
                 webhook.LTO_Gacha(servantArray)
+                return
 
         if not found_svt:
             main.logger.info(f"\n {'=' * 40} \n [+] 不满足活动条件..不能参加限定召唤 \n {'=' * 40} ")
