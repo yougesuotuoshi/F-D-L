@@ -452,15 +452,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                                 )
                             )
 
-                    if "eventMissionAnnounce" in resSuccess:
-                        for mission in resSuccess["eventMissionAnnounce"]:
-                            missionArray.append(
-                                gacha.EventMission(
-                                    mission['message'], mission['progressFrom'], mission['progressTo'], mission['condition']
-                                )
-                            )
-
-                webhook.LTO_Gacha(servantArray, missionArray)
+                webhook.LTO_Gacha(servantArray)
 
         if not found_svt:
             main.logger.info(f"\n {'=' * 40} \n [+] 不满足活动条件..不能参加限定召唤 \n {'=' * 40} ")
