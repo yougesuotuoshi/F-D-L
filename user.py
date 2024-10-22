@@ -677,7 +677,6 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                     response_time = mytime.GetTimeStamp()
                     if response_time > 1700000000:
                         current_time = response_time
-                        main.logger.info(f"{current_time}")
 
                         if current_time > closedAt:
                             main.logger.info(f"\n {'=' * 40} \n 目前没有 绿方块活动(´･ω･`) \n {'=' * 40} ")
