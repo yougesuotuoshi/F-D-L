@@ -674,7 +674,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                 if item.get('baseShopId') == max_base_shop_s_id:
                     closedAt = item.get('closedAt')
 
-                    response_time = str(mytime.GetTimeStamp())
+                    response_time = mytime.GetTimeStamp()
                     if response_time > 1700000000:
                         current_time = response_time
                         main.logger.info(f"{current_time}")
