@@ -674,9 +674,10 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                 if item.get('baseShopId') == max_base_shop_s_id:
                     closedAt = item.get('closedAt')
 
-                    response = requests.get("http://worldtimeapi.org/api/timezone/Etc/UTC")
-                    if response.status_code == 200:
-                        current_time = response.json()['unixtime']
+                    response_time = str(mytime.GetTimeStamp())
+                    if response_time > 1700000000:
+                        current_time = response_time
+                        main.logger.info(f"{current_time}")
 
                         if current_time > closedAt:
                             main.logger.info(f"\n {'=' * 40} \n 目前没有 绿方块活动(´･ω･`) \n {'=' * 40} ")
@@ -745,7 +746,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
                                          object_id_count = num
                                          webhook.Present(name, namegift, object_id_count)
                     else:
-                        main.logger.info(f"\n {'=' * 40} \n [+] 时间服务器连接失败 \n {'=' * 40}")
+                        main.logger.info(f"\n {'=' * 40} \n [+] 和游戏服务器时间戳不一致 \n {'=' * 40}")
 
     
     def Present(self):
