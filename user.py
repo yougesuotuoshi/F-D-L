@@ -558,97 +558,173 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
             main.logger.info(f"\n {'=' * 40} \n [+] 领取成功 \n {'=' * 40} " )
 
     def lq003(self):
+        # https://game.fate-go.jp/shop/purchase
+        
         url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstShop.json'
         response = requests.get(url)
-        Purchase_data = response.json()
-    
-        # 获取每月兑换物品信息
-        monthly_shop_id, monthly_limit, monthly_price = None, None, None
-        for item in Purchase_data:
+        fdata = response.json()
+        max_base_shop_id = None
+        max_base_shop_s_id = None
+        max_base_lim_it_Num = None 
+        max_base_lim_it_s_Num = None 
+        max_base_prices = None
+        max_base_prices_s = None
+        max_base_name_s = '活动'
+        num = None
+        for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 4096:
-                monthly_shop_id = item.get('baseShopId')
-                monthly_limit = item.get('limitNum')
-                monthly_price = item.get('prices')[0]
-                break
-    
-        if monthly_shop_id is None:
-            main.logger.info("未找到符合条件的每月兑换呼符信息")
-            return
-    
-        with open('login.json', 'r', encoding='utf-8') as file:
-            login_data = json.load(file)
+                base_shop_id = item.get('baseShopId')
+                base_lim_it_Num = item.get('limitNum')
+                base_prices = item.get('prices')[0]
+                
+                if max_base_shop_id is None or base_shop_id > max_base_shop_id:
+                    max_base_shop_id = base_shop_id
+                    max_base_lim_it_Num = base_lim_it_Num
+                    max_base_prices = base_prices
+        if max_base_shop_id is not None:
+            shopId = max_base_shop_id
+            with open('login.json', 'r', encoding='utf-8') as file:
+                gdata = json.load(file)
+            num_value = None
+            for item in gdata.get('cache', {}).get('updated', {}).get('userShop', []):
+                if item.get('shopId') == shopId:
+                    num_value = item.get('num')
+                    break
 
-        # 获取用户的魔力棱镜数量
-        mana = login_data['cache']['replaced']['userGame'][0]['mana']
-        monthly_num_value = next((item.get('num') for item in login_data.get('cache', {}).get('updated', {}).get('userShop', []) if item.get('shopId') == monthly_shop_id), 0)
-        
-        # 计算可兑换的数量
-        monthly_num_ok = monthly_limit - monthly_num_value
-        mana_s = mana // monthly_price
-        num = min(monthly_num_ok, mana_s)
-    
-        # 检查兑换条件
-        if mana_s == 0:
-            main.logger.info("魔力棱镜不足，无法兑换")
-            return
-        elif monthly_num_value > 0 and monthly_num_ok == 0:
-            main.logger.info("你已经兑换完所有每月呼符")
-            return
-        else:
-            self.builder_.AddParameter('id', str(monthly_shop_id))
-            self.builder_.AddParameter('num', str(num))
-    
-            data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-            if 'response' in data:
-                main.logger.info(f"已兑换 {num} 呼符（每月）")
-                namegift = "呼符（每月）"
-                name = "呼符"
-                object_id_count = num
-                webhook.Present(name, namegift, object_id_count)
-    
-        # 获取当前时间戳
-        response_time = mytime.GetTimeStamp()
-    
-        # 获取活动兑换物品信息
-        S_base_shop_id, S_base_limit, S_base_price, S_base_name = None, None, None, None
-        for item in Purchase_data:
-            if 4001 in item.get('targetIds', []) and item.get('flag') == 2048 and response_time < item.get('closedAt'):
-                S_base_shop_id = item.get('baseShopId')
-                S_base_limit = item.get('limitNum')
-                S_base_price = item.get('prices')[0]
-                match = re.search(r'【(.*?)】', item.get('detail'))
-                S_base_name = match.group(1) if match else "活动"
-                break
-    
-        if S_base_shop_id is None:
-            main.logger.info("目前没有绿方块活动(´･ω･`)")
-            return
-    
-        # 获取活动物品已兑换数量
-        S_num_value = next((item.get('num') for item in login_data.get('cache', {}).get('updated', {}).get('userShop', []) if item.get('shopId') == S_base_shop_id), 0)
-    
-        # 计算可兑换的数量
-        S_num_ok = S_base_limit - S_num_value
-        S_mana_s = mana // S_base_price
-        S_num = min(S_num_ok, S_mana_s)
-    
-        if S_mana_s == 0:
-            main.logger.info("魔力棱镜不足，无法兑换")
-            return
-        elif S_num_value > 0 and S_num_ok == 0:
-            main.logger.info(f"你已经兑换完所有 {S_base_name} 呼符")
-            return
-        else:
-            self.builder_.AddParameter('id', str(S_base_shop_id))
-            self.builder_.AddParameter('num', str(S_num))
-    
-            data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-            if 'response' in data:
-                main.logger.info(f"已兑换 {S_num} 呼符 // {S_base_name}")
-                name = "呼符"
-                namegift = S_base_name
-                object_id_count = S_num
-                webhook.Present(name, namegift, object_id_count)
+            if num_value is not None:
+                shopId = max_base_shop_id
+                num_ok = max_base_lim_it_Num - num_value
+                if num_ok == 0:
+                   main.logger.info(f"\n {'=' * 40} \n 每月呼符 你已经兑换过了(´･ω･`) \n {'=' * 40} ")
+                else:
+                    mana = gdata['cache']['replaced']['userGame'][0]['mana']
+                    mana_s = mana // max_base_prices
+                    if mana_s == 0:
+                       main.logger.info(f"\n {'=' * 40} \n 魔力棱镜不足(´･ω･`) \n {'=' * 40} ")
+                    else:
+                        if num_ok > mana_s:
+                           num = mana_s
+                        else:
+                           num = num_ok
+                        self.builder_.AddParameter('id', str(shopId))
+                        self.builder_.AddParameter('num', str(num))
+                        data = self.Post(
+                            f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
+                
+                        responses = data['response'] 
+                        if num is not None:
+                           main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月）\n {'=' * 40} ")   
+                           namegift = "呼符（每月）"
+                           name = "呼符"
+                           object_id_count = num
+                           webhook.Present(name, namegift, object_id_count)
+            else:
+                num_ok = max_base_lim_it_Num
+                mana = gdata['cache']['replaced']['userGame'][0]['mana']
+                mana_s = mana // max_base_prices
+                if mana_s == 0:
+                   main.logger.info(f"\n {'=' * 40} \n 魔力棱镜不足(´･ω･`) \n {'=' * 40} ")
+                else:
+                    if num_ok > mana_s:
+                       num = mana_s
+                    else:
+                       num = num_ok
+                    self.builder_.AddParameter('id', str(shopId))
+                    self.builder_.AddParameter('num', str(num))
+                    data = self.Post(
+                        f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
+                    
+                    if num is not None:
+                        main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 （每月） \n {'=' * 40} ")
+                        namegift = "呼符（每月）"
+                        name = "呼符"
+                        object_id_count = num
+                        webhook.Present(name, namegift, object_id_count)
+                    
+        for item in fdata:
+            if 4001 in item.get('targetIds', []) and item.get('flag') == 2048:
+                base_shop_s_id = item.get('baseShopId')
+                base_lim_it_s_Num = item.get('limitNum')
+                base_prices_s = item.get('prices')[0]
+                base_name_s = item.get('detail')
+                match = re.search(r'【(.*?)】', base_name_s)
+                base_name_ss = match.group(1)
+                
+                if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
+                    max_base_shop_s_id = base_shop_s_id
+                    max_base_lim_it_s_Num = base_lim_it_s_Num
+                    max_base_prices_s = base_prices_s
+                    max_base_name_s = base_name_ss
+        if max_base_shop_s_id is not None:
+            shopId = max_base_shop_s_id
+            for item in fdata:
+                if item.get('baseShopId') == max_base_shop_s_id:
+                    closedAt = item.get('closedAt')
+                    response_time = mytime.GetTimeStamp()
+                    if response_time > 1700000000:
+                        current_time = response_time
+                        if current_time > closedAt:
+                            main.logger.info(f"\n {'=' * 40} \n 目前没有 绿方块活动(´･ω･`) \n {'=' * 40} ")
+                            return
+                        else:
+                            with open('login.json', 'r', encoding='utf-8') as file:
+                                 gdata = json.load(file)
+                            mana = gdata['cache']['replaced']['userGame'][0]['mana']
+                            mana_s = mana // max_base_prices_s
+                            num_value = None
+                            for item in gdata.get('cache', {}).get('updated', {}).get('userShop', []):
+                                if item.get('shopId') == shopId:
+                                    num_value = item.get('num')
+                                    break
+                            if num_value is not None:
+                               num_ok = max_base_lim_it_s_Num - num_value
+                               if num_ok == 0:
+                                   main.logger.info(f"\n {'=' * 40} \n {max_base_name_s}呼符 你已经兑换过了(´･ω･`) \n {'=' * 40} ")
+                                   return
+                               else:
+                                    if mana_s == 0:
+                                       main.logger.info(f"\n {'=' * 40} \n 魔力棱镜不足(´･ω･`) \n {'=' * 40} ")
+                                    else:
+                                        if num_ok > mana_s:
+                                           num = mana_s
+                                        else:
+                                           num = num_ok
+                                    self.builder_.AddParameter('id', str(shopId))
+                                    self.builder_.AddParameter('num', str(num))
+                                    data = self.Post(
+                                        f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
+                                    if num is not None:
+                                        main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                        name = "呼符"
+                                        namegift = max_base_name_s
+                                        object_id_count = num
+                                        webhook.Present(name, namegift, object_id_count)
+                            else:
+                                 num_ok = max_base_lim_it_s_Num
+                                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
+                                 mana_s = mana // max_base_prices_s
+                                
+                                 if mana_s == 0:
+                                    main.logger.info(f"\n {'=' * 40} \n 魔力棱镜不足(´･ω･`) \n {'=' * 40} ")
+                                    return
+                                 else:
+                                     if num_ok > mana_s:
+                                        num = mana_s
+                                     else:
+                                         num = num_ok
+                 
+                                     self.builder_.AddParameter('id', str(shopId))
+                                     self.builder_.AddParameter('num', str(num))
+                                     data = self.Post(
+                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
+                                     if num is not None:
+                                         main.logger.info(f"\n {'=' * 40} \n 已兑换 {num} 呼符 // {max_base_name_s} \n {'=' * 40} ")
+                                         name = "呼符"
+                                         namegift = max_base_name_s
+                                         object_id_count = num
+                                         webhook.Present(name, namegift, object_id_count)
+                    else:
+                        main.logger.info(f"\n {'=' * 40} \n [+] 和游戏服务器时间戳不一致 \n {'=' * 40}")
 
     
     def Present(self):
