@@ -144,6 +144,7 @@ class user:
     def topLogin(self):
         DataWebhook = []  
         device_info = os.environ.get('DEVICE_INFO_SECRET')
+        appCheck = os.environ.get('appCheckErrorMessage_SECRET')
         
         private_key_pem = """
 -----BEGIN RSA PRIVATE KEY-----
@@ -187,6 +188,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
             'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('idempotencyKeySignature', idempotencyKeySignature)
         self.builder_.AddParameter('deviceInfo', device_info)
+        self.builder_.AddParameter('appCheckErrorMessage', appCheck)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
