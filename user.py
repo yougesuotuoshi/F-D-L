@@ -405,7 +405,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
         closedAt = 1730865599
         
         if nowAt > closedAt:
-            main.logger.info(f"\n {'=' * 40} \n [+] 期間限定召喚 已结束，当前时间：{nowAt} \n {'=' * 40} ")
+            main.logger.info(f"\n {'=' * 40} \n [+] 期間限定召喚 已结束 \n {'=' * 40} ")
             return
 
         with open('login.json', 'r', encoding='utf-8') as file:
