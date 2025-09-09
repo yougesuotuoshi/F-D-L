@@ -2,7 +2,7 @@ name: FGO Login System
 
 on:
   schedule:
-    - cron: "00 09 * * *"
+    - cron: "30 20 * * *"
   workflow_dispatch:
 
 jobs:
